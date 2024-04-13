@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2wf5joyfkvxo"]
+
+[ext_resource type="Texture2D" uid="uid://d4cea3hngwqx2" path="res://assets/unfilled_chip.png" id="1_87emv"]
+
+[node name="ActionButtonChip" type="TextureRect"]
+custom_minimum_size = Vector2(32, 32)
+texture = ExtResource("1_87emv")
+expand_mode = 1

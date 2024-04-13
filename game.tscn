@@ -118,25 +118,29 @@ script = ExtResource("4_1dbbi")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 37.0
-offset_top = 1001.0
-offset_right = 77.0
-offset_bottom = 1041.0
+offset_left = 97.0
+offset_top = 992.0
+offset_right = 284.0
+offset_bottom = 1032.0
 
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 action = "MOVE"
 title = "Move"
+need_charges = 1
+charges = 1
 
 [node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 action = "ATTACK"
 title = "Attack"
+need_charges = 2
 
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 action = "EXPLODE"
 title = "Explode"
+need_charges = 3
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0

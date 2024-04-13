@@ -1,37 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpoeijkdc2ec5"]
+[gd_scene load_steps=5 format=3 uid="uid://dpoeijkdc2ec5"]
 
 [ext_resource type="Script" path="res://action_button.gd" id="1_ovhj1"]
+[ext_resource type="PackedScene" uid="uid://d2wf5joyfkvxo" path="res://action_button_chip.tscn" id="2_dxnr1"]
 [ext_resource type="Texture2D" uid="uid://d4cea3hngwqx2" path="res://assets/unfilled_chip.png" id="2_hfj6u"]
+[ext_resource type="Texture2D" uid="uid://ll1k4jff637o" path="res://assets/filled_chip.png" id="4_rk3uf"]
 
-[node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("button")]
+[node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("chip_container", "button")]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ovhj1")
-button = NodePath("MoveButton")
+chip_container = NodePath("HBoxContainer")
+chip = ExtResource("2_dxnr1")
+button = NodePath("HBoxContainer2/MoveButton")
+unfilled_texture = ExtResource("2_hfj6u")
+filled_texture = ExtResource("4_rk3uf")
 
-[node name="MoveButton" type="Button" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MoveButton" type="Button" parent="HBoxContainer2"]
 layout_mode = 2
 text = "Move"
+
+[node name="Control" type="Control" parent="HBoxContainer2"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("2_hfj6u")
-expand_mode = 1
-
-[node name="TextureRect2" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("2_hfj6u")
-expand_mode = 1
-
-[node name="TextureRect3" type="TextureRect" parent="HBoxContainer"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-texture = ExtResource("2_hfj6u")
-expand_mode = 1
-
-[connection signal="pressed" from="MoveButton" to="." method="_on_move_button_pressed"]
+[connection signal="pressed" from="HBoxContainer2/MoveButton" to="." method="_on_move_button_pressed"]

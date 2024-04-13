@@ -47,11 +47,11 @@ func set_action(in_action):
 	
 	action_debug_label.text = PlayerAction.find_key(action)
 	
-	Bus.perform_action.emit(action)
-	
 	if action == PlayerAction.MOVING:
+		Bus.perform_action.emit(PlayerAction.MOVE)
 		agent.target_position = get_global_mouse_position()
 	if action == PlayerAction.EXPLODING:
+		Bus.perform_action.emit(PlayerAction.EXPLODE)
 		perform_explosion()
 
 func perform_explosion():
