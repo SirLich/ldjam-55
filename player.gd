@@ -25,6 +25,10 @@ var attack_width = 0.0
 @export var attack_area = Area2D
 @export var attack_shape = CollisionShape2D
 
+@export var damage_player : AudioStreamPlayer2D
+@export var move_player : AudioStreamPlayer2D
+@export var attack_player : AudioStreamPlayer2D
+@export var explode_player : AudioStreamPlayer2D
 
 var action : PlayerAction
 
@@ -67,8 +71,10 @@ func set_action(in_action):
 		Bus.perform_action.emit(PlayerAction.MOVE)
 		agent.target_position = get_global_mouse_position()
 		sprite.play("walk")
+		move_player.play()
 	else:
 		sprite.play("idle")
+		move_player.stop()
 		
 	if action == PlayerAction.EXPLODING:
 		Bus.perform_action.emit(PlayerAction.EXPLODE)
@@ -79,6 +85,7 @@ func set_action(in_action):
 		perform_attack()
 
 func perform_attack():
+	attack_player.play()
 	attack_shape.shape.size.y = attack_radius + 45
 	
 	var start_angle = get_angle_to(get_global_mouse_position()) + PI/2
@@ -98,6 +105,7 @@ func perform_attack():
 	set_action(PlayerAction.NONE)
 	
 func perform_explosion():
+	explode_player.play()
 	var tween = get_tree().create_tween()
 	
 	explosion_shape.shape.radius = explode_radius
@@ -167,6 +175,7 @@ func _on_attack_area_body_entered(body : Node2D):
 		body.damage(attack_damage)
 
 func damage(value):
+	damage_player.play()
 	health -= value
 	
 	if health <= 0:

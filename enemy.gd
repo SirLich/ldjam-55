@@ -9,7 +9,7 @@ var paused = true
 @export var health_bar : ProgressBar
 @export var sprite : AnimatedSprite2D
 @export var attack_damage : int = 1
-
+@export var audio_player : AudioStreamPlayer2D
 @export var max_health = 10
 var health
 
@@ -46,9 +46,11 @@ func _process(delta):
 func on_enemy_turn_started(time):
 	sprite.play("walk")
 	agent.target_position = get_player().global_position
+	audio_player.play()
 	paused = false
 	
 func on_enemy_turn_ended():
+	audio_player.stop()
 	sprite.play("idle")
 	paused = true
 	

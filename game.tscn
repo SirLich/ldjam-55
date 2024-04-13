@@ -1,15 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=29 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
 [ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
+[ext_resource type="AudioStream" uid="uid://bd2xbuk15vb05" path="res://assets/sfx/player_hurt.wav" id="4_d7f8b"]
 [ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
 [ext_resource type="Texture2D" uid="uid://cwo8g03vxx5t4" path="res://assets/char_1.svg" id="4_vdg23"]
 [ext_resource type="Texture2D" uid="uid://blbrrg8m17i6y" path="res://assets/char_2.svg" id="5_0qpbh"]
+[ext_resource type="AudioStream" uid="uid://wnsapniarjry" path="res://assets/sfx/attack_multiple.wav" id="5_kul1t"]
+[ext_resource type="AudioStream" uid="uid://5l5iyoct0wg" path="res://assets/sfx/player_step.wav" id="5_pi5lw"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
+[ext_resource type="AudioStream" uid="uid://cu4im8s3jmupl" path="res://assets/sfx/attack_single.wav" id="6_mfe68"]
 [ext_resource type="Texture2D" uid="uid://c2vbpnmhybwwl" path="res://assets/move_1.svg" id="6_y7q1o"]
+[ext_resource type="AudioStream" uid="uid://cg7gnbi003phg" path="res://assets/sfx/explosion.wav" id="7_1d4m3"]
 [ext_resource type="Texture2D" uid="uid://xru6la7irpn8" path="res://assets/move_2.svg" id="7_lykm8"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
@@ -19,6 +24,30 @@ vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 4, 1), PackedInt32Array(5, 1, 6, 7), PackedInt32Array(8, 7, 6), PackedInt32Array(8, 6, 9, 10), PackedInt32Array(11, 10, 9), PackedInt32Array(12, 11, 9, 13), PackedInt32Array(13, 9, 0, 14), PackedInt32Array(15, 14, 0), PackedInt32Array(15, 0, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(25, 46, 30, 1029, 1851, 1028, 1866, 55)])
 source_geometry_group_name = &"navigation_polygon_source_group"
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_63ci6"]
+random_pitch = 1.1
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("4_d7f8b")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_um04d"]
+streams_count = 1
+stream_0/stream = ExtResource("5_pi5lw")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_2ckjc"]
+streams_count = 2
+stream_0/stream = ExtResource("5_kul1t")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("6_mfe68")
+stream_1/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n4yes"]
+streams_count = 1
+stream_0/stream = ExtResource("7_1d4m3")
+stream_0/weight = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lhl2x"]
 radius = 26.0768
@@ -79,7 +108,7 @@ navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
 polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "health_area", "attack_area", "attack_shape") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "explode_player") groups=["player"]]
 y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
@@ -91,7 +120,25 @@ sprite = NodePath("AnimatedSprite2D")
 health_area = NodePath("HealthArea")
 attack_area = NodePath("AttackArea")
 attack_shape = NodePath("AttackArea/CollisionShape2D")
+damage_player = NodePath("DamagePlayer")
+move_player = NodePath("MovePlayer")
+attack_player = NodePath("AttackPlayer")
+explode_player = NodePath("ExplodePlayer")
 metadata/_edit_group_ = true
+
+[node name="DamagePlayer" type="AudioStreamPlayer2D" parent="Player"]
+stream = SubResource("AudioStreamRandomizer_63ci6")
+volume_db = 7.015
+pitch_scale = 1.72
+
+[node name="MovePlayer" type="AudioStreamPlayer2D" parent="Player"]
+stream = SubResource("AudioStreamRandomizer_um04d")
+
+[node name="AttackPlayer" type="AudioStreamPlayer2D" parent="Player"]
+stream = SubResource("AudioStreamRandomizer_2ckjc")
+
+[node name="ExplodePlayer" type="AudioStreamPlayer2D" parent="Player"]
+stream = SubResource("AudioStreamRandomizer_n4yes")
 
 [node name="HealthArea" type="Area2D" parent="Player"]
 
