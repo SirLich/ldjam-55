@@ -12,5 +12,4 @@ func _on_end_turn_button_pressed():
 	
 func _on_enemy_turn_timer_timeout():
 	end_turn_button.visible = true
-	print("STOP")
 	Bus.enemy_turn_ended.emit()

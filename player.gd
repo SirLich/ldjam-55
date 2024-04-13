@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name Player
 
+@export var max_health : int =  100
+var health
+
 @export var move_distance : float
 @export var movement_speed: float = 600.0
 
@@ -35,6 +38,7 @@ enum PlayerAction {
 }
 
 func _ready():
+	health = max_health
 	agent.navigation_finished.connect(on_navigation_finished)
 	sprite.play("idle")
 
@@ -151,3 +155,17 @@ func _physics_process(delta):
 func _on_attack_area_body_entered(body : Node2D):
 	if body.is_in_group("enemy") and is_action(PlayerAction.ATTACKING):
 		body.damage(attack_damage)
+
+func damage(value):
+	health -= value
+	
+	if health <= 0:
+		kill()
+		
+func kill():
+	queue_free()
+	
+
+func _on_area_2d_body_entered(body):
+	if body.is_in_group("enemy"):
+		damage(body.attack_damage)

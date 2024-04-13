@@ -8,6 +8,7 @@ var paused = true
 @export var agent : NavigationAgent2D
 @export var health_bar : ProgressBar
 @export var sprite : AnimatedSprite2D
+@export var attack_damage : int = 10
 
 @export var max_health = 10
 var health
