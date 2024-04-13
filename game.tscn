@@ -51,7 +51,7 @@ radius = 23.0217
 [sub_resource type="CircleShape2D" id="CircleShape2D_vi6u8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyv5q"]
-size = Vector2(8, 87.5)
+size = Vector2(27, 87.5)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("turn_timer", "end_turn_button")]
 script = ExtResource("1_3ui0v")
@@ -115,7 +115,7 @@ shape = SubResource("CircleShape2D_vi6u8")
 [node name="AttackArea" type="Area2D" parent="Player"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea"]
-position = Vector2(1, -41.25)
+position = Vector2(-1.5, -41.25)
 shape = SubResource("RectangleShape2D_pyv5q")
 
 [node name="Worm" parent="." instance=ExtResource("1_5dp4w")]

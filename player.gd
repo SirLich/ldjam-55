@@ -9,9 +9,9 @@ class_name Player
 
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
-@export var attack_speed = 10
+@export var attack_speed = 0.3
 @export var attack_damage : float = 10
-
+var attack_width = 0.0
 @export var agent : NavigationAgent2D
 @export var action_debug_label : Label
 @export var explosion_area : Area2D
@@ -68,10 +68,17 @@ func set_action(in_action):
 		perform_attack()
 
 func perform_attack():
+	attack_shape.shape.size.y = attack_radius + 55
+	
 	var start_angle = get_angle_to(get_global_mouse_position()) + PI/2
 	var tween = get_tree().create_tween()
 	attack_area.rotation = start_angle
-	tween.tween_property(attack_area, "rotation", start_angle + attack_angle, 0.5)
+	var attack_anim_speed = attack_speed / 2
+	tween.tween_property(attack_area, "rotation", start_angle + attack_angle, attack_speed)
+	var anim_tween = get_tree().create_tween()
+	anim_tween.tween_property(self, "attack_width", PI/2, attack_anim_speed)
+	anim_tween.tween_property(self, "attack_width", 0, attack_anim_speed)
+	
 	await tween.finished
 	
 	set_action(PlayerAction.NONE)
@@ -115,6 +122,9 @@ func _draw():
 		var start_angle = get_angle_to(get_global_mouse_position())
 		draw_arc(Vector2(0,0), attack_radius, start_angle, start_angle + attack_angle, 10, Color.AQUA, attack_radius)
 		
+	if is_action(PlayerAction.ATTACKING):
+		var start_angle = attack_area.rotation - (PI / 2)
+		draw_arc(Vector2(0,0), attack_radius, start_angle - attack_width, start_angle, 10, Color.WHITE, attack_radius)
 		
 func _process(delta):
 	queue_redraw()
