@@ -1,24 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=4 format=3 uid="uid://yuy0svp0u2xk"]
 
-[ext_resource type="Script" path="res://draw_worm.gd" id="1_xm7k5"]
+[ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
+vertices = PackedVector2Array(1845, 993, 47, 995, 55, 62, 1790, 56)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(46, 53, 37, 1006, 1856, 1003, 1800, 46)])
+source_geometry_group_name = &"navigation_polygon_source_group"
 
 [node name="Game" type="Node2D"]
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_sdu3m")
+
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 1153.0
-offset_bottom = 649.0
+offset_right = 1935.0
+offset_bottom = 1082.0
 color = Color(0.647059, 0.588235, 0.360784, 1)
 metadata/_edit_lock_ = true
 
-[node name="Player" type="Node2D" parent="."]
+[node name="Player" type="Node2D" parent="." groups=["player"]]
+position = Vector2(1420, 334)
+metadata/_edit_group_ = true
 
-[node name="Worm" type="Node2D" parent="."]
+[node name="ColorRect" type="ColorRect" parent="Player"]
+offset_left = -12.0
+offset_top = -13.0
+offset_right = 18.0
+offset_bottom = 18.0
 
-[node name="Draw" type="Node2D" parent="Worm"]
-position = Vector2(326, 246)
-script = ExtResource("1_xm7k5")
+[node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
+position = Vector2(75, 93)
 
 [node name="DrawDots" type="Node2D" parent="."]
-position = Vector2(532, 746)
+position = Vector2(961, 1214)
 script = ExtResource("2_nvo7r")
+metadata/_edit_lock_ = true
