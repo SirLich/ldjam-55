@@ -222,14 +222,21 @@ offset_bottom = 1007.0
 layout_mode = 2
 action = "MOVE"
 title = "Move"
-need_charges = 1
-charges = 1
+need_charges = 2
+charges = 2
+
+[node name="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+layout_mode = 2
+action = "DASH"
+title = "Dash"
+need_charges = 3
 
 [node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 action = "ATTACK"
 title = "Attack"
 need_charges = 2
+charges = 2
 
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2

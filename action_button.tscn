@@ -20,10 +20,9 @@ layout_mode = 2
 
 [node name="MoveButton" type="Button" parent="HBoxContainer2"]
 layout_mode = 2
-text = "Move"
 
 [node name="Control" type="Control" parent="HBoxContainer2"]
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

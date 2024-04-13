@@ -4,8 +4,9 @@ class_name Player
 @export var max_health : int =  100
 var health
 
-@export var move_distance : float
-@export var movement_speed: float = 600.0
+
+@export var movement_speed: float = 300.0
+var dashing_speed: float = 600.0
 
 @export var explode_radius : float = 50
 @export var explode_damage : float = 10
@@ -30,6 +31,8 @@ var attack_width = 0.0
 @export var attack_player : AudioStreamPlayer2D
 @export var explode_player : AudioStreamPlayer2D
 
+var move_distance
+
 var action : PlayerAction
 
 enum PlayerAction {
@@ -39,7 +42,9 @@ enum PlayerAction {
 	EXPLODE,
 	EXPLODING,
 	ATTACK,
-	ATTACKING
+	ATTACKING,
+	DASH,
+	DASHING
 }
 
 func _ready():
@@ -67,8 +72,11 @@ func set_action(in_action):
 	
 	action_debug_label.text = PlayerAction.find_key(action)
 	
-	if action == PlayerAction.MOVING:
-		Bus.perform_action.emit(PlayerAction.MOVE)
+	if action == PlayerAction.MOVING or action == PlayerAction.DASHING:
+		if action == PlayerAction.MOVING:
+			Bus.perform_action.emit(PlayerAction.MOVE)
+		else:
+			Bus.perform_action.emit(PlayerAction.DASH)
 		agent.target_position = get_global_mouse_position()
 		sprite.play("walk")
 		move_player.play()
@@ -122,14 +130,18 @@ func _input(event):
 	
 	if event.is_action_released("left_click"):
 		if is_action(PlayerAction.MOVE):
+			move_distance = 200
 			set_action(PlayerAction.MOVING)
+		if is_action(PlayerAction.DASH):
+			move_distance = 500
+			set_action(PlayerAction.DASHING)
 		if is_action(PlayerAction.ATTACK):
 			set_action(PlayerAction.ATTACKING)
 		if is_action(PlayerAction.EXPLODE):
 			set_action(PlayerAction.EXPLODING)
 
 func _draw():
-	if is_action(PlayerAction.MOVE):
+	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.DASH):
 		var path = agent.get_current_navigation_path()
 		var new_path : PackedVector2Array
 		for v in path:
@@ -151,22 +163,25 @@ func _draw():
 func _process(delta):
 	queue_redraw()
 	
-	if is_action(PlayerAction.MOVE):
+	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.DASH):
 		
 		agent.target_position = get_global_mouse_position()
 		agent.is_target_reachable()
 	
 func _physics_process(delta):
-	if not is_action(PlayerAction.MOVING):
+	if not is_action(PlayerAction.MOVING) and not is_action(PlayerAction.DASHING):
 		return
 	
 	if agent.is_navigation_finished():
 		return
-
+	
 	var current_agent_position: Vector2 = global_position
 	var next_path_position: Vector2 = agent.get_next_path_position()
-
-	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+	
+	if is_action(PlayerAction.MOVING):
+		velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+	else:
+		velocity = current_agent_position.direction_to(next_path_position) * dashing_speed
 	move_and_slide()
 
 
