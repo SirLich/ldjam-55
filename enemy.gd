@@ -6,11 +6,25 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 var paused = true
 
 @export var agent : NavigationAgent2D
+@export var health_bar : ProgressBar
+
+@export var max_health = 10
+var health
 
 func get_player() -> Node2D:
 	return get_tree().get_first_node_in_group("player")
+
+func damage(value):
+	health -= value
+	if health <= 0:
+		kill()
+
+func kill():
+	queue_free()
 	
 func _ready():
+	health = max_health
+	
 	Bus.enemy_turn_ended.connect(on_enemy_turn_ended)
 	Bus.enemy_turn_started.connect(on_enemy_turn_started)
 	
@@ -22,6 +36,10 @@ func _ready():
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
 
+func _process(delta):
+	health_bar.max_value = max_health * 100
+	health_bar.value = health * 100
+	
 func on_enemy_turn_started(time):
 	agent.target_position = get_player().global_position
 	paused = false

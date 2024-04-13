@@ -2,9 +2,10 @@ extends CharacterBody2D
 class_name Player
 
 @export var move_distance : float
-@export var movement_speed: float = 200.0
+@export var movement_speed: float = 600.0
 
 @export var explode_radius : float = 50
+@export var explode_damage : float = 10
 
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
@@ -13,7 +14,8 @@ class_name Player
 
 @export var agent : NavigationAgent2D
 @export var action_debug_label : Label
-
+@export var explosion_area : Area2D
+@export var explosion_shape : CollisionShape2D
 
 var action : PlayerAction
 
@@ -28,6 +30,7 @@ enum PlayerAction {
 }
 
 func _ready():
+	
 	agent.navigation_finished.connect(on_navigation_finished)
 	
 func on_navigation_finished():
@@ -52,6 +55,11 @@ func set_action(in_action):
 func perform_explosion():
 	var tween = get_tree().create_tween()
 	
+	explosion_shape.shape.radius = explode_radius
+	for body in explosion_area.get_overlapping_bodies():
+		if body.is_in_group("enemy"):
+			body.damage(explode_damage)
+		
 	await get_tree().create_timer(2).timeout
 	set_action(PlayerAction.NONE)
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=11 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -18,6 +18,8 @@ radius = 80.98
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7hbjk"]
 radius = 23.0217
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vi6u8"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("turn_timer", "end_turn_button")]
 script = ExtResource("1_3ui0v")
@@ -42,11 +44,13 @@ offset_bottom = 1082.0
 color = Color(0.647059, 0.588235, 0.360784, 1)
 metadata/_edit_lock_ = true
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape") groups=["player"]]
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
 agent = NodePath("NavigationAgent2D")
 action_debug_label = NodePath("Label")
+explosion_area = NodePath("ExplosionArea")
+explosion_shape = NodePath("ExplosionArea/CollisionShape2D")
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Player"]
@@ -66,6 +70,11 @@ offset_left = -16.0
 offset_top = -55.0
 offset_right = 24.0
 offset_bottom = -32.0
+
+[node name="ExplosionArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/ExplosionArea"]
+shape = SubResource("CircleShape2D_vi6u8")
 
 [node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
 position = Vector2(399, 183)

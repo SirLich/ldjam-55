@@ -5,9 +5,10 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tl3n6"]
 
-[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent")]
+[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar") groups=["enemy"]]
 script = ExtResource("1_yra1v")
 agent = NodePath("NavigationAgent2D")
+health_bar = NodePath("ProgressBar")
 metadata/_edit_group_ = true
 
 [node name="Draw" type="Node2D" parent="."]
