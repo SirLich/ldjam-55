@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=20 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://c2vbpnmhybwwl" path="res://assets/move_1.svg" id="6_y7q1o"]
 [ext_resource type="Texture2D" uid="uid://xru6la7irpn8" path="res://assets/move_2.svg" id="7_lykm8"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
+[ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
 vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 586, 1104, 663, 39, 1018, 960, 673, 801, 657, 35, 56, 729, 574, 740, 475, 813, 436, 862, 408, 964, 398, 1081, 416)
@@ -54,7 +55,7 @@ radius = 23.0217
 radius = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyv5q"]
-size = Vector2(27, 87.5)
+size = Vector2(27, 13.16)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("turn_timer", "end_turn_button")]
 script = ExtResource("1_3ui0v")
@@ -78,7 +79,7 @@ navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
 polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "attack_area", "attack_shape") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "health_area", "attack_area", "attack_shape") groups=["player"]]
 y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
@@ -87,13 +88,14 @@ action_debug_label = NodePath("Label")
 explosion_area = NodePath("ExplosionArea")
 explosion_shape = NodePath("ExplosionArea/CollisionShape2D")
 sprite = NodePath("AnimatedSprite2D")
+health_area = NodePath("HealthArea")
 attack_area = NodePath("AttackArea")
 attack_shape = NodePath("AttackArea/CollisionShape2D")
 metadata/_edit_group_ = true
 
-[node name="Area2D" type="Area2D" parent="Player"]
+[node name="HealthArea" type="Area2D" parent="Player"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HealthArea"]
 shape = SubResource("CircleShape2D_lhl2x")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
@@ -123,7 +125,7 @@ shape = SubResource("CircleShape2D_vi6u8")
 [node name="AttackArea" type="Area2D" parent="Player"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea"]
-position = Vector2(-1.5, -41.25)
+position = Vector2(-1, -65)
 shape = SubResource("RectangleShape2D_pyv5q")
 
 [node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
@@ -155,9 +157,11 @@ offset_top = 83.0
 offset_right = 1187.0
 offset_bottom = 123.0
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/ProgressRow"]
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control/ProgressRow"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
+step = 1.0
+script = ExtResource("10_j6it2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
@@ -200,6 +204,6 @@ script = ExtResource("2_8uugw")
 spawn_scene = ExtResource("9_sbmir")
 
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
-[connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Player/HealthArea" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_body_entered"]
 [connection signal="pressed" from="CanvasLayer/Control/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

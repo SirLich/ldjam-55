@@ -20,6 +20,7 @@ var attack_width = 0.0
 @export var explosion_area : Area2D
 @export var explosion_shape : CollisionShape2D
 @export var sprite : AnimatedSprite2D
+@export var health_area : Area2D
 
 @export var attack_area = Area2D
 @export var attack_shape = CollisionShape2D
@@ -39,9 +40,15 @@ enum PlayerAction {
 
 func _ready():
 	health = max_health
+	Bus.enemy_turn_started.connect(on_enemy_turn_started)
+	
 	agent.navigation_finished.connect(on_navigation_finished)
 	sprite.play("idle")
 
+func on_enemy_turn_started(time):
+	for body in health_area.get_overlapping_bodies():
+		try_damage_player(body)
+	
 func on_navigation_finished():
 	set_action(PlayerAction.NONE)
 	
@@ -72,9 +79,11 @@ func set_action(in_action):
 		perform_attack()
 
 func perform_attack():
-	attack_shape.shape.size.y = attack_radius + 55
+	attack_shape.shape.size.y = attack_radius + 45
 	
 	var start_angle = get_angle_to(get_global_mouse_position()) + PI/2
+	
+	
 	var tween = get_tree().create_tween()
 	attack_area.rotation = start_angle
 	var attack_anim_speed = attack_speed / 2
@@ -85,6 +94,7 @@ func perform_attack():
 	
 	await tween.finished
 	
+	attack_shape.shape.size.y = 0
 	set_action(PlayerAction.NONE)
 	
 func perform_explosion():
@@ -165,7 +175,9 @@ func damage(value):
 func kill():
 	queue_free()
 	
-
-func _on_area_2d_body_entered(body):
+func try_damage_player(body):
 	if body.is_in_group("enemy"):
 		damage(body.attack_damage)
+		
+func _on_area_2d_body_entered(body):
+	try_damage_player(body)
