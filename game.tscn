@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=13 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
 [ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
+[ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
 vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 586, 1104, 663, 39, 1018, 960, 673, 801, 657, 35, 56, 729, 574, 740, 475, 813, 436, 862, 408, 964, 398, 1081, 416)
@@ -24,14 +25,6 @@ radius = 23.0217
 script = ExtResource("1_3ui0v")
 turn_timer = NodePath("EnemyTurnTimer")
 end_turn_button = NodePath("CanvasLayer/Control/EndTurnButton")
-
-[node name="Spawner" type="Node2D" parent="."]
-script = ExtResource("2_8uugw")
-spawn_scene = ExtResource("1_5dp4w")
-
-[node name="SpawnTimer" type="Timer" parent="Spawner"]
-wait_time = 10.0
-autostart = true
 
 [node name="EnemyTurnTimer" type="Timer" parent="."]
 one_shot = true
@@ -118,10 +111,10 @@ script = ExtResource("4_1dbbi")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 97.0
-offset_top = 992.0
-offset_right = 284.0
-offset_bottom = 1032.0
+offset_left = 112.0
+offset_top = 967.0
+offset_right = 461.0
+offset_bottom = 1007.0
 
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
@@ -144,12 +137,17 @@ need_charges = 3
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 1788.0
-offset_top = 1000.0
-offset_right = 1796.0
-offset_bottom = 1008.0
+offset_left = 1716.0
+offset_top = 957.0
+offset_right = 1806.0
+offset_bottom = 988.0
 text = "END TURN"
 
-[connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
+[node name="EnemySpawn" parent="." instance=ExtResource("9_sbmir")]
+
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("2_8uugw")
+spawn_scene = ExtResource("9_sbmir")
+
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/Control/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
