@@ -23,7 +23,7 @@ func _ready():
 	call_deferred("actor_setup")
 
 func on_enemy_turn_started(time):
-	movement_target_position = get_player().global_position
+	agent.target_position = get_player().global_position
 	paused = false
 	
 func on_enemy_turn_ended():
@@ -33,15 +33,8 @@ func actor_setup():
 	# Wait for the first physics frame so the NavigationServer can sync.
 	await get_tree().physics_frame
 
-	# Set target position
-	movement_target_position = get_player().global_position
+	agent.target_position = get_player().global_position
 	
-	# Now that the navigation map is no longer empty, set the movement target.
-	set_movement_target(movement_target_position)
-
-func set_movement_target(movement_target: Vector2):
-	agent.target_position = movement_target
-
 func _physics_process(delta):
 	if paused:
 		return

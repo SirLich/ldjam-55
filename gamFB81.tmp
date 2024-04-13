@@ -1,20 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=9 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
-[ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
+[ext_resource type="Script" path="res://action_button.gd" id="6_10rjh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
-vertices = PackedVector2Array(989, 528, 1790, 56, 1845, 993, 977, 573, 977, 483, 863, 64, 943, 449, 898, 437, 47, 995, 55, 63, 853, 449, 819, 483, 807, 528, 819, 573, 853, 607, 898, 619, 943, 607)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 0, 4), PackedInt32Array(5, 1, 4, 6), PackedInt32Array(5, 6, 7), PackedInt32Array(8, 9, 5, 10, 11), PackedInt32Array(5, 7, 10), PackedInt32Array(8, 11, 12), PackedInt32Array(8, 12, 13), PackedInt32Array(8, 13, 14), PackedInt32Array(2, 8, 14, 15), PackedInt32Array(2, 15, 16), PackedInt32Array(2, 16, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(46, 53, 37, 1006, 1856, 1003, 1800, 46, 863, 54)])
+vertices = PackedVector2Array(1845, 993, 47, 995, 55, 62, 1790, 56)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(46, 53, 37, 1006, 1856, 1003, 1800, 46)])
 source_geometry_group_name = &"navigation_polygon_source_group"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fvqsw"]
-radius = 80.98
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7hbjk"]
 radius = 23.0217
@@ -29,14 +26,7 @@ end_turn_button = NodePath("CanvasLayer/Control/EndTurnButton")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D"]
-position = Vector2(898, 528)
-shape = SubResource("CircleShape2D_fvqsw")
-
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 offset_right = 1935.0
 offset_bottom = 1082.0
 color = Color(0.647059, 0.588235, 0.360784, 1)
@@ -45,6 +35,8 @@ metadata/_edit_lock_ = true
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label") groups=["player"]]
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
+move_distance = null
+movement_speed = null
 agent = NodePath("NavigationAgent2D")
 action_debug_label = NodePath("Label")
 metadata/_edit_group_ = true
@@ -59,7 +51,6 @@ offset_bottom = 18.0
 shape = SubResource("CircleShape2D_7hbjk")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Player"]
-avoidance_enabled = true
 
 [node name="Label" type="Label" parent="Player"]
 offset_left = -16.0
@@ -68,10 +59,10 @@ offset_right = 24.0
 offset_bottom = -32.0
 
 [node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
-position = Vector2(399, 183)
+position = Vector2(75, 93)
 
 [node name="Worm2" parent="." node_paths=PackedStringArray("agent") instance=ExtResource("1_5dp4w")]
-position = Vector2(211, 231)
+position = Vector2(46, 140)
 agent = NodePath("../Worm/NavigationAgent2D")
 
 [node name="DrawDots" type="Node2D" parent="."]
@@ -108,13 +99,23 @@ offset_top = 1001.0
 offset_right = 77.0
 offset_bottom = 1041.0
 
-[node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+[node name="MoveButton" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
 layout_mode = 2
+text = "Move"
+script = ExtResource("6_10rjh")
+action = "MOVE"
 
-[node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+[node name="Button2" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
 layout_mode = 2
-text = "Explode"
-action = "EXPLODE"
+text = "Hello"
+
+[node name="Button3" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+text = "Hello"
+
+[node name="Button4" type="Button" parent="CanvasLayer/Control/HBoxContainer"]
+layout_mode = 2
+text = "Hello"
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
@@ -125,4 +126,5 @@ offset_bottom = 1008.0
 text = "END TURN"
 
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/Control/HBoxContainer/MoveButton" to="CanvasLayer/Control/HBoxContainer/MoveButton" method="_on_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

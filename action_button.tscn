@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpoeijkdc2ec5"]
+
+[ext_resource type="Script" path="res://action_button.gd" id="1_ovhj1"]
+
+[node name="MoveButton" type="Button"]
+text = "Move"
+script = ExtResource("1_ovhj1")
+action = "MOVE"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
