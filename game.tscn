@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=12 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
+[ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
@@ -26,7 +27,16 @@ script = ExtResource("1_3ui0v")
 turn_timer = NodePath("EnemyTurnTimer")
 end_turn_button = NodePath("CanvasLayer/Control/EndTurnButton")
 
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("2_8uugw")
+spawn_scene = ExtResource("1_5dp4w")
+
+[node name="SpawnTimer" type="Timer" parent="Spawner"]
+wait_time = 10.0
+autostart = true
+
 [node name="EnemyTurnTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_sdu3m")
@@ -138,5 +148,6 @@ offset_right = 1796.0
 offset_bottom = 1008.0
 text = "END TURN"
 
+[connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/Control/EndTurnButton" to="." method="_on_end_turn_button_pressed"]
