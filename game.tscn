@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=13 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
+[ext_resource type="Texture2D" uid="uid://crawbmu2fnuix" path="res://assets/candle.png" id="8_xhwqx"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
 vertices = PackedVector2Array(989, 528, 1790, 56, 1845, 993, 977, 573, 977, 483, 863, 64, 943, 449, 898, 437, 47, 995, 55, 63, 853, 449, 819, 483, 807, 528, 819, 573, 853, 607, 898, 619, 943, 607)
@@ -147,6 +148,11 @@ offset_top = 1000.0
 offset_right = 1796.0
 offset_bottom = 1008.0
 text = "END TURN"
+
+[node name="Candle" type="Sprite2D" parent="."]
+position = Vector2(393, 591)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("8_xhwqx")
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]

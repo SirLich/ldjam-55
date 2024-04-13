@@ -1,28 +1,66 @@
-[gd_scene load_steps=4 format=3 uid="uid://730ren3udciw"]
+[gd_scene load_steps=9 format=3 uid="uid://730ren3udciw"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_yra1v"]
 [ext_resource type="Script" path="res://draw_worm.gd" id="2_8fcju"]
+[ext_resource type="Texture2D" uid="uid://ycyl1rwaqyu0" path="res://assets/bug/bug_frame.svg" id="3_jbn4y"]
+[ext_resource type="Texture2D" uid="uid://cml302tyihu41" path="res://assets/bug/bug_frame_2.svg" id="4_q33vx"]
+[ext_resource type="Texture2D" uid="uid://i6eomp4tjy0x" path="res://assets/bug/walk_1.svg" id="5_2uby7"]
+[ext_resource type="Texture2D" uid="uid://d2pdyrabc2rp7" path="res://assets/bug/walk_2.svg" id="6_46v43"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tl3n6"]
 
-[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar") groups=["enemy"]]
+[sub_resource type="SpriteFrames" id="SpriteFrames_30ulj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jbn4y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_q33vx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2uby7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_46v43")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar", "sprite") groups=["enemy"]]
+position = Vector2(2, 2)
 script = ExtResource("1_yra1v")
 agent = NodePath("NavigationAgent2D")
 health_bar = NodePath("ProgressBar")
+sprite = NodePath("AnimatedSprite2D")
 metadata/_edit_group_ = true
-
-[node name="Draw" type="Node2D" parent="."]
-script = ExtResource("2_8fcju")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
+
+[node name="Draw" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_8fcju")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tl3n6")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(50, 0)
-offset_left = -23.0
-offset_top = -43.0
-offset_right = 27.0
-offset_bottom = -16.0
+offset_left = -26.0
+offset_top = -70.0
+offset_right = 24.0
+offset_bottom = -43.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_30ulj")
+animation = &"walk"
+frame_progress = 0.738363

@@ -7,6 +7,7 @@ var paused = true
 
 @export var agent : NavigationAgent2D
 @export var health_bar : ProgressBar
+@export var sprite : AnimatedSprite2D
 
 @export var max_health = 10
 var health
@@ -23,6 +24,7 @@ func kill():
 	queue_free()
 	
 func _ready():
+	sprite.play("idle")
 	health = max_health
 	
 	Bus.enemy_turn_ended.connect(on_enemy_turn_ended)
@@ -41,10 +43,12 @@ func _process(delta):
 	health_bar.value = health * 100
 	
 func on_enemy_turn_started(time):
+	sprite.play("walk")
 	agent.target_position = get_player().global_position
 	paused = false
 	
 func on_enemy_turn_ended():
+	sprite.play("idle")
 	paused = true
 	
 func actor_setup():
