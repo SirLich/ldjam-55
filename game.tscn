@@ -111,6 +111,11 @@ offset_bottom = 1041.0
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 
+[node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+layout_mode = 2
+text = "Attack"
+action = "ATTACK"
+
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 text = "Explode"

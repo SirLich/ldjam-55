@@ -6,6 +6,11 @@ class_name Player
 
 @export var explode_radius : float = 50
 
+@export var attack_radius : float = 75
+@export var attack_angle = PI/2
+@export var attack_speed = 10
+
+
 @export var agent : NavigationAgent2D
 @export var action_debug_label : Label
 
@@ -17,7 +22,9 @@ enum PlayerAction {
 	MOVE,
 	MOVING,
 	EXPLODE,
-	EXPLODING
+	EXPLODING,
+	ATTACK,
+	ATTACKING
 }
 
 func _ready():
@@ -39,14 +46,26 @@ func set_action(in_action):
 	
 	if action == PlayerAction.MOVING:
 		agent.target_position = get_global_mouse_position()
+	if action == PlayerAction.EXPLODING:
+		perform_explosion()
+
+func perform_explosion():
+	var tween = get_tree().create_tween()
+	
+	await get_tree().create_timer(2).timeout
+	set_action(PlayerAction.NONE)
 	
 func _input(event):
 	if event.is_action_released("right_click"):
 		set_action(PlayerAction.NONE)
-		
-	if is_action(PlayerAction.MOVE):
-		if event.is_action_released("left_click"):
+	
+	if event.is_action_released("left_click"):
+		if is_action(PlayerAction.MOVE):
 			set_action(PlayerAction.MOVING)
+		if is_action(PlayerAction.ATTACK):
+			set_action(PlayerAction.ATTACKING)
+		if is_action(PlayerAction.EXPLODE):
+			set_action(PlayerAction.EXPLODING)
 
 func _draw():
 	if is_action(PlayerAction.MOVE):
@@ -59,6 +78,10 @@ func _draw():
 	
 	if is_action(PlayerAction.EXPLODE):
 		draw_circle(Vector2(0,0), explode_radius, Color.BLANCHED_ALMOND)
+		
+	if is_action(PlayerAction.ATTACK):
+		var start_angle = get_angle_to(get_global_mouse_position())
+		draw_arc(Vector2(0,0), attack_radius, start_angle, start_angle + attack_angle, 10, Color.AQUA, attack_radius)
 		
 		
 func _process(delta):
