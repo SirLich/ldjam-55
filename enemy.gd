@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-var movement_speed: float = 200.0
-var movement_target_position: Vector2 = Vector2(60.0,180.0)
+@export var movement_speed: float = 200.0
 
 var paused = true
 

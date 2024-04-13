@@ -45,6 +45,7 @@ stream_0/weight = 1.0
 [node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar", "sprite", "audio_player") groups=["enemy"]]
 position = Vector2(2, 2)
 script = ExtResource("1_yra1v")
+movement_speed = 300.0
 agent = NodePath("NavigationAgent2D")
 health_bar = NodePath("ProgressBar")
 sprite = NodePath("AnimatedSprite2D")
