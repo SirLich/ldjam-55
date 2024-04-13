@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://yuy0svp0u2xk"]
+
+[ext_resource type="Script" path="res://draw_worm.gd" id="1_xm7k5"]
+[ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
+
+[node name="Game" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1153.0
+offset_bottom = 649.0
+color = Color(0.647059, 0.588235, 0.360784, 1)
+metadata/_edit_lock_ = true
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Worm" type="Node2D" parent="."]
+
+[node name="Draw" type="Node2D" parent="Worm"]
+position = Vector2(326, 246)
+script = ExtResource("1_xm7k5")
+
+[node name="DrawDots" type="Node2D" parent="."]
+position = Vector2(532, 746)
+script = ExtResource("2_nvo7r")
