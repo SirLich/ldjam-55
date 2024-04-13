@@ -44,6 +44,9 @@ func _process(delta):
 	
 func on_enemy_turn_started(time):
 	sprite.play("walk")
+	if not agent:
+		queue_free()
+		return
 	agent.target_position = get_player().global_position
 	audio_player.play()
 	paused = false

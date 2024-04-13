@@ -5,6 +5,7 @@ class_name Player
 var health
 
 
+var move_time = 1.0
 @export var movement_speed: float = 300.0
 var dashing_speed: float = 600.0
 
@@ -80,6 +81,9 @@ func set_action(in_action):
 		agent.target_position = get_global_mouse_position()
 		sprite.play("walk")
 		move_player.play()
+		await get_tree().create_timer(move_time).timeout
+		if PlayerAction.MOVING or action == PlayerAction.DASHING:
+			set_action(PlayerAction.NONE)
 	else:
 		sprite.play("idle")
 		move_player.stop()
@@ -140,14 +144,31 @@ func _input(event):
 		if is_action(PlayerAction.EXPLODE):
 			set_action(PlayerAction.EXPLODING)
 
+func get_speed():
+	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.MOVING):
+		return movement_speed
+	if is_action(PlayerAction.DASH) or is_action(PlayerAction.DASHING):
+		return dashing_speed
+		
 func _draw():
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.DASH):
 		var path = agent.get_current_navigation_path()
 		var new_path : PackedVector2Array
+		var size = 0
+		var last_point = path[0]
+		var colors : PackedColorArray
 		for v in path:
+			size += v.distance_to(last_point)
+			last_point = v
 			new_path.append(v - global_position)
+			
+			if size < get_speed():
+				colors.append(Color.BLACK)
+			else:
+				colors.append(Color.RED)
 		
-		draw_polyline(new_path, Color.BLACK, 2)
+		var color_to_use = Color.BLACK
+		draw_polyline_colors(new_path, colors, 3)
 	
 	if is_action(PlayerAction.EXPLODE):
 		draw_circle(Vector2(0,0), explode_radius, Color.BLANCHED_ALMOND)
@@ -178,10 +199,8 @@ func _physics_process(delta):
 	var current_agent_position: Vector2 = global_position
 	var next_path_position: Vector2 = agent.get_next_path_position()
 	
-	if is_action(PlayerAction.MOVING):
-		velocity = current_agent_position.direction_to(next_path_position) * movement_speed
-	else:
-		velocity = current_agent_position.direction_to(next_path_position) * dashing_speed
+	velocity = current_agent_position.direction_to(next_path_position) * get_speed()
+	
 	move_and_slide()
 
 
