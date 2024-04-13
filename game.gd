@@ -3,6 +3,8 @@ extends Node2D
 @export var turn_timer : Timer
 @export var end_turn_button : Button
 
+
+
 @export var turn_time = 1
 
 func _on_end_turn_button_pressed():

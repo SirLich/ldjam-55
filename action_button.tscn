@@ -1,10 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpoeijkdc2ec5"]
+[gd_scene load_steps=3 format=3 uid="uid://dpoeijkdc2ec5"]
 
 [ext_resource type="Script" path="res://action_button.gd" id="1_ovhj1"]
+[ext_resource type="Texture2D" uid="uid://d4cea3hngwqx2" path="res://assets/unfilled_chip.png" id="2_hfj6u"]
 
-[node name="MoveButton" type="Button"]
-text = "Move"
+[node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("button")]
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_ovhj1")
-action = "MOVE"
+button = NodePath("MoveButton")
 
-[connection signal="pressed" from="." to="." method="_on_pressed"]
+[node name="MoveButton" type="Button" parent="."]
+layout_mode = 2
+text = "Move"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_hfj6u")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_hfj6u")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_hfj6u")
+expand_mode = 1
+
+[connection signal="pressed" from="MoveButton" to="." method="_on_move_button_pressed"]

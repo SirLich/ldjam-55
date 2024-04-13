@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=12 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -6,17 +6,14 @@
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
+[ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
-[ext_resource type="Texture2D" uid="uid://crawbmu2fnuix" path="res://assets/candle.png" id="8_xhwqx"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
-vertices = PackedVector2Array(989, 528, 1790, 56, 1845, 993, 977, 573, 977, 483, 863, 64, 943, 449, 898, 437, 47, 995, 55, 63, 853, 449, 819, 483, 807, 528, 819, 573, 853, 607, 898, 619, 943, 607)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(1, 0, 4), PackedInt32Array(5, 1, 4, 6), PackedInt32Array(5, 6, 7), PackedInt32Array(8, 9, 5, 10, 11), PackedInt32Array(5, 7, 10), PackedInt32Array(8, 11, 12), PackedInt32Array(8, 12, 13), PackedInt32Array(8, 13, 14), PackedInt32Array(2, 8, 14, 15), PackedInt32Array(2, 15, 16), PackedInt32Array(2, 16, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(46, 53, 37, 1006, 1856, 1003, 1800, 46, 863, 54)])
+vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 586, 1104, 663, 39, 1018, 960, 673, 801, 657, 35, 56, 729, 574, 740, 475, 813, 436, 862, 408, 964, 398, 1081, 416)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 4, 1), PackedInt32Array(5, 1, 6, 7), PackedInt32Array(8, 7, 6), PackedInt32Array(8, 6, 9, 10), PackedInt32Array(11, 10, 9), PackedInt32Array(12, 11, 9, 13), PackedInt32Array(13, 9, 0, 14), PackedInt32Array(15, 14, 0), PackedInt32Array(15, 0, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(25, 46, 30, 1029, 1851, 1028, 1866, 55)])
 source_geometry_group_name = &"navigation_polygon_source_group"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fvqsw"]
-radius = 80.98
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7hbjk"]
 radius = 23.0217
@@ -39,21 +36,19 @@ autostart = true
 [node name="EnemyTurnTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1935.0
+offset_bottom = 1082.0
+texture = ExtResource("4_gsckj")
+metadata/_edit_lock_ = true
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D"]
-position = Vector2(898, 528)
-shape = SubResource("CircleShape2D_fvqsw")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_right = 1935.0
-offset_bottom = 1082.0
-color = Color(0.647059, 0.588235, 0.360784, 1)
-metadata/_edit_lock_ = true
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
+polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape") groups=["player"]]
 position = Vector2(1420, 334)
@@ -111,10 +106,10 @@ grow_vertical = 2
 
 [node name="ProgressRow" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 28.0
-offset_top = 19.0
-offset_right = 328.0
-offset_bottom = 59.0
+offset_left = 65.0
+offset_top = 77.0
+offset_right = 365.0
+offset_bottom = 117.0
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/ProgressRow"]
 custom_minimum_size = Vector2(300, 0)
@@ -130,16 +125,18 @@ offset_bottom = 1041.0
 
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
+action = "MOVE"
+title = "Move"
 
 [node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
-text = "Attack"
 action = "ATTACK"
+title = "Attack"
 
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
-text = "Explode"
 action = "EXPLODE"
+title = "Explode"
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
@@ -148,11 +145,6 @@ offset_top = 1000.0
 offset_right = 1796.0
 offset_bottom = 1008.0
 text = "END TURN"
-
-[node name="Candle" type="Sprite2D" parent="."]
-position = Vector2(393, 591)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("8_xhwqx")
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
