@@ -9,7 +9,7 @@ var move_time = 1.0
 @export var movement_speed: float = 300.0
 var dashing_speed: float = 600.0
 
-@export var explode_radius : float = 50
+@export var explode_radius : float = 100
 @export var explode_damage : float = 10
 
 @export var attack_radius : float = 75
@@ -50,6 +50,7 @@ enum PlayerAction {
 
 func _ready():
 	health = max_health
+	explosion_shape.shape.radius = explode_radius
 	Bus.enemy_turn_started.connect(on_enemy_turn_started)
 	
 	agent.navigation_finished.connect(on_navigation_finished)
@@ -120,7 +121,6 @@ func perform_explosion():
 	explode_player.play()
 	var tween = get_tree().create_tween()
 	
-	explosion_shape.shape.radius = explode_radius
 	for body in explosion_area.get_overlapping_bodies():
 		if body.is_in_group("enemy"):
 			body.damage(explode_damage)
