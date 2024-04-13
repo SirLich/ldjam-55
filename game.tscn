@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=19 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -7,7 +7,11 @@
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="Script" path="res://turn_progress_bar.gd" id="4_1dbbi"]
 [ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
+[ext_resource type="Texture2D" uid="uid://cwo8g03vxx5t4" path="res://assets/char_1.svg" id="4_vdg23"]
+[ext_resource type="Texture2D" uid="uid://blbrrg8m17i6y" path="res://assets/char_2.svg" id="5_0qpbh"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
+[ext_resource type="Texture2D" uid="uid://c2vbpnmhybwwl" path="res://assets/move_1.svg" id="6_y7q1o"]
+[ext_resource type="Texture2D" uid="uid://xru6la7irpn8" path="res://assets/move_2.svg" id="7_lykm8"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
@@ -16,10 +20,38 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Arr
 outlines = Array[PackedVector2Array]([PackedVector2Array(25, 46, 30, 1029, 1851, 1028, 1866, 55)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_212ij"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vdg23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0qpbh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_y7q1o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_lykm8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_7hbjk"]
 radius = 23.0217
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vi6u8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pyv5q"]
+size = Vector2(8, 87.5)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("turn_timer", "end_turn_button")]
 script = ExtResource("1_3ui0v")
@@ -43,20 +75,25 @@ navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
 polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "attack_area", "attack_shape") groups=["player"]]
+y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
 agent = NodePath("NavigationAgent2D")
 action_debug_label = NodePath("Label")
 explosion_area = NodePath("ExplosionArea")
 explosion_shape = NodePath("ExplosionArea/CollisionShape2D")
+sprite = NodePath("AnimatedSprite2D")
+attack_area = NodePath("AttackArea")
+attack_shape = NodePath("AttackArea/CollisionShape2D")
 metadata/_edit_group_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Player"]
-offset_left = -12.0
-offset_top = -13.0
-offset_right = 18.0
-offset_bottom = 18.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0, -11)
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_212ij")
+animation = &"walk"
+frame_progress = 0.11078
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CircleShape2D_7hbjk")
@@ -74,6 +111,12 @@ offset_bottom = -32.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/ExplosionArea"]
 shape = SubResource("CircleShape2D_vi6u8")
+
+[node name="AttackArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea"]
+position = Vector2(1, -41.25)
+shape = SubResource("RectangleShape2D_pyv5q")
 
 [node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
 position = Vector2(399, 183)
@@ -150,4 +193,5 @@ script = ExtResource("2_8uugw")
 spawn_scene = ExtResource("9_sbmir")
 
 [connection signal="timeout" from="EnemyTurnTimer" to="." method="_on_enemy_turn_timer_timeout"]
+[connection signal="body_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_body_entered"]
 [connection signal="pressed" from="CanvasLayer/Control/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

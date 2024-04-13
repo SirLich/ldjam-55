@@ -10,12 +10,17 @@ class_name Player
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
 @export var attack_speed = 10
-
+@export var attack_damage : float = 10
 
 @export var agent : NavigationAgent2D
 @export var action_debug_label : Label
 @export var explosion_area : Area2D
 @export var explosion_shape : CollisionShape2D
+@export var sprite : AnimatedSprite2D
+
+@export var attack_area = Area2D
+@export var attack_shape = CollisionShape2D
+
 
 var action : PlayerAction
 
@@ -30,9 +35,9 @@ enum PlayerAction {
 }
 
 func _ready():
-	
 	agent.navigation_finished.connect(on_navigation_finished)
-	
+	sprite.play("idle")
+
 func on_navigation_finished():
 	set_action(PlayerAction.NONE)
 	
@@ -50,10 +55,27 @@ func set_action(in_action):
 	if action == PlayerAction.MOVING:
 		Bus.perform_action.emit(PlayerAction.MOVE)
 		agent.target_position = get_global_mouse_position()
+		sprite.play("walk")
+	else:
+		sprite.play("idle")
+		
 	if action == PlayerAction.EXPLODING:
 		Bus.perform_action.emit(PlayerAction.EXPLODE)
 		perform_explosion()
+		
+	if action == PlayerAction.ATTACKING:
+		Bus.perform_action.emit(PlayerAction.ATTACK)
+		perform_attack()
 
+func perform_attack():
+	var start_angle = get_angle_to(get_global_mouse_position()) + PI/2
+	var tween = get_tree().create_tween()
+	attack_area.rotation = start_angle
+	tween.tween_property(attack_area, "rotation", start_angle + attack_angle, 0.5)
+	await tween.finished
+	
+	set_action(PlayerAction.NONE)
+	
 func perform_explosion():
 	var tween = get_tree().create_tween()
 	
@@ -114,3 +136,8 @@ func _physics_process(delta):
 
 	velocity = current_agent_position.direction_to(next_path_position) * movement_speed
 	move_and_slide()
+
+
+func _on_attack_area_body_entered(body : Node2D):
+	if body.is_in_group("enemy") and is_action(PlayerAction.ATTACKING):
+		body.damage(attack_damage)

@@ -63,4 +63,4 @@ offset_bottom = -43.0
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_30ulj")
 animation = &"walk"
-frame_progress = 0.738363
+frame_progress = 0.450705
