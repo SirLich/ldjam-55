@@ -9,7 +9,9 @@
 [ext_resource type="AudioStream" uid="uid://u3bgynh2qib3" path="res://assets/sfx/spider_move.wav" id="7_8hx5u"]
 [ext_resource type="AudioStream" uid="uid://dy70dkp2kdian" path="res://assets/sfx/hiss.wav" id="7_mnc68"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tl3n6"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gxm8i"]
+radius = 24.625
+height = 60.95
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_30ulj"]
 animations = [{
@@ -71,7 +73,7 @@ visible = false
 script = ExtResource("2_8fcju")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_tl3n6")
+shape = SubResource("CapsuleShape2D_gxm8i")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(50, 0)

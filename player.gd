@@ -53,7 +53,9 @@ enum PlayerAction {
 	BOMB,
 	BOMBING,
 	SHOOT,
-	SHOOTING
+	SHOOTING,
+	LASER,
+	LASERING
 }
 
 func _ready():
@@ -114,11 +116,22 @@ func set_action(in_action):
 	if action == PlayerAction.SHOOTING:
 		Bus.perform_action.emit(PlayerAction.SHOOT)
 		perform_shoot()
+	
+	if action == PlayerAction.LASERING:
+		Bus.perform_action.emit(PlayerAction.LASER)
+		perform_laser()
+
 
 func get_target_shoot_position():
 	return Vector2.ZERO.direction_to(get_local_mouse_position()) * shoot_distance
 	
+func perform_laser():
+	for i in range (8):
+		perform_shoot()
+		await get_tree().create_timer(0.1).timeout
+	
 func perform_shoot():
+	shoot_ray.force_raycast_update()
 	var col = shoot_ray.get_collider()
 	shoot_player.play()
 	if col and col.is_in_group("enemy"):
@@ -182,6 +195,8 @@ func _input(event):
 			set_action(PlayerAction.BOMBING)
 		if is_action(PlayerAction.SHOOT):
 			set_action(PlayerAction.SHOOTING)
+		if is_action(PlayerAction.LASER):
+			set_action(PlayerAction.LASERING)
 
 func get_speed():
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.MOVING):
@@ -227,6 +242,9 @@ func _draw():
 	
 	if is_action(PlayerAction.SHOOT):
 		draw_line(Vector2.ZERO, get_target_shoot_position(), Color.RED, 2)
+	
+	if is_action(PlayerAction.LASER):
+		draw_line(Vector2.ZERO, get_target_shoot_position(), Color.RED, 20)
 		
 	if is_action(PlayerAction.ATTACK):
 		var start_angle = get_angle_to(get_global_mouse_position())

@@ -22,9 +22,9 @@
 [ext_resource type="PackedScene" uid="uid://u4itpbb17f0l" path="res://item_spawn.tscn" id="23_v7akv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
-vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 586, 1104, 663, 39, 1018, 960, 673, 801, 657, 35, 56, 729, 574, 740, 475, 813, 436, 862, 408, 964, 398, 1081, 416)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 4, 1), PackedInt32Array(5, 1, 6, 7), PackedInt32Array(8, 7, 6), PackedInt32Array(8, 6, 9, 10), PackedInt32Array(11, 10, 9), PackedInt32Array(12, 11, 9, 13), PackedInt32Array(13, 9, 0, 14), PackedInt32Array(15, 14, 0), PackedInt32Array(15, 0, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(25, 46, 30, 1029, 1851, 1028, 1866, 55)])
+vertices = PackedVector2Array(1897, 1054, 27, 1054, 21, 24, 1897, 24)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(11, 14, 18, 1064, 1907, 1065, 1907, 15)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_63ci6"]
@@ -96,11 +96,6 @@ metadata/_edit_lock_ = true
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_sdu3m")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
-polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "shoot_player", "shoot_ray") groups=["player"]]
 y_sort_enabled = true
@@ -244,6 +239,12 @@ layout_mode = 2
 action = "BOMB"
 title = "Bomb"
 need_charges = 5
+
+[node name="LaserButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+layout_mode = 2
+action = "LASER"
+title = "Laser"
+need_charges = 6
 
 [node name="EndTurnButton" type="Button" parent="CanvasLayer/Control"]
 layout_mode = 0
