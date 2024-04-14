@@ -295,8 +295,11 @@ func damage(value):
 		kill()
 		
 func kill():
-	queue_free()
 	get_tree().paused = true
+	var color = Color.BLACK
+	color.a = 0.3
+	get_parent().modulate = color
+	Bus.game_over.emit()
 	
 func try_damage_player(body):
 	if body.is_in_group("enemy"):

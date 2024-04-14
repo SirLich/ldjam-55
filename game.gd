@@ -6,6 +6,7 @@ extends Node2D
 @export var turn_time = 1
 
 func _on_end_turn_button_pressed():
+	$ArrowSprite.visible = false
 	end_turn_button.visible = false
 	turn_timer.start(turn_time)
 	Bus.enemy_turn_started.emit(turn_time)

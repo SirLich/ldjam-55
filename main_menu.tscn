@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsdoc3nj1kafa"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_pfeps"]
+[ext_resource type="Texture2D" uid="uid://cr4ighcsbwotb" path="res://assets/start_screen.png" id="1_psgcw"]
+[ext_resource type="FontFile" uid="uid://d6vqjwuun3os" path="res://assets/BLOODY.TTF" id="2_01jcj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y7kw8"]
+font = ExtResource("2_01jcj")
+font_size = 75
+font_color = Color(0.698039, 0.396078, 0.376471, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m47gp"]
+font_size = 24
+font_color = Color(0.92549, 0.776471, 0.815686, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pfeps")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_psgcw")
+
+[node name="PressKey" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -368.0
+offset_top = -143.0
+offset_right = 408.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Any key to begin..."
+label_settings = SubResource("LabelSettings_y7kw8")
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 1434.0
+offset_top = 111.0
+offset_right = 1826.0
+offset_bottom = 661.0
+text = "Rules:
+
+Survive the hordes of enemies
+as long as you can.
+
+ - Left-click to confirm an action.
+ - Right-click to cancel an action.
+"
+label_settings = SubResource("LabelSettings_m47gp")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 68.0
+offset_right = 446.0
+offset_bottom = 618.0
+text = "Credits:
+
+Tools
+ - Godot 4.2.1
+ - Krita 5.1.5
+ - Inkscape 1.2.2
+ - Audacity 2.4.1
+
+Fonts
+ - BLOODY by james-fordyce"
+label_settings = SubResource("LabelSettings_m47gp")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

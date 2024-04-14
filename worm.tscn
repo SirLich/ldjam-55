@@ -10,8 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://dy70dkp2kdian" path="res://assets/sfx/hiss.wav" id="7_mnc68"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gxm8i"]
-radius = 24.625
-height = 60.95
+radius = 15.0
+height = 32.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_30ulj"]
 animations = [{
