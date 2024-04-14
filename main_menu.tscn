@@ -47,6 +47,7 @@ label_settings = SubResource("LabelSettings_y7kw8")
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 1434.0
 offset_top = 111.0
 offset_right = 1826.0
