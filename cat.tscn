@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://d4kb5vgk2htc5"]
+
+[ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_v3fkf"]
+[ext_resource type="Texture2D" uid="uid://bhfjat70o5jd5" path="res://assets/cat_1.svg" id="2_ickrf"]
+[ext_resource type="Texture2D" uid="uid://bppty86js6kci" path="res://assets/cat_2.svg" id="3_3qwyt"]
+[ext_resource type="Texture2D" uid="uid://bc02iusybqudw" path="res://assets/cat_walk_1.svg" id="4_sxx0y"]
+[ext_resource type="Texture2D" uid="uid://dgnuvhwu0lych" path="res://assets/cat_walk_2.svg" id="5_px16t"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yao5v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ickrf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3qwyt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sxx0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_px16t")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Worm" instance=ExtResource("1_v3fkf")]
+movement_speed = 120.0
+attack_damage = 10
+max_health = 30
+
+[node name="AnimatedSprite2D" parent="." index="4"]
+sprite_frames = SubResource("SpriteFrames_yao5v")
+frame = 1
+frame_progress = 0.896164
