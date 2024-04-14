@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=35 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -7,14 +7,18 @@
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
 [ext_resource type="AudioStream" uid="uid://bd2xbuk15vb05" path="res://assets/sfx/player_hurt.wav" id="4_d7f8b"]
 [ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
+[ext_resource type="Texture2D" uid="uid://dgpiioydqc0cg" path="res://assets/explode/explode_1.png" id="4_nnvam"]
 [ext_resource type="Texture2D" uid="uid://cwo8g03vxx5t4" path="res://assets/char_1.svg" id="4_vdg23"]
 [ext_resource type="Texture2D" uid="uid://blbrrg8m17i6y" path="res://assets/char_2.svg" id="5_0qpbh"]
 [ext_resource type="AudioStream" uid="uid://wnsapniarjry" path="res://assets/sfx/attack_multiple.wav" id="5_kul1t"]
 [ext_resource type="AudioStream" uid="uid://5l5iyoct0wg" path="res://assets/sfx/player_step.wav" id="5_pi5lw"]
+[ext_resource type="Texture2D" uid="uid://bv6wx6u0vmrxr" path="res://assets/explode/explode_2.png" id="5_ududj"]
 [ext_resource type="PackedScene" uid="uid://dpoeijkdc2ec5" path="res://action_button.tscn" id="6_aol81"]
 [ext_resource type="AudioStream" uid="uid://cu4im8s3jmupl" path="res://assets/sfx/attack_single.wav" id="6_mfe68"]
+[ext_resource type="Texture2D" uid="uid://cid076dhvjp6e" path="res://assets/explode/explode_3.png" id="6_s2mf6"]
 [ext_resource type="Texture2D" uid="uid://c2vbpnmhybwwl" path="res://assets/move_1.svg" id="6_y7q1o"]
 [ext_resource type="AudioStream" uid="uid://cg7gnbi003phg" path="res://assets/sfx/explosion.wav" id="7_1d4m3"]
+[ext_resource type="Texture2D" uid="uid://cw1ph85b1paq1" path="res://assets/explode/explode_4.png" id="7_4go5m"]
 [ext_resource type="Texture2D" uid="uid://xru6la7irpn8" path="res://assets/move_2.svg" id="7_lykm8"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
@@ -25,6 +29,35 @@ vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 4, 1), PackedInt32Array(5, 1, 6, 7), PackedInt32Array(8, 7, 6), PackedInt32Array(8, 6, 9, 10), PackedInt32Array(11, 10, 9), PackedInt32Array(12, 11, 9, 13), PackedInt32Array(13, 9, 0, 14), PackedInt32Array(15, 14, 0), PackedInt32Array(15, 0, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(25, 46, 30, 1029, 1851, 1028, 1866, 55)])
 source_geometry_group_name = &"navigation_polygon_source_group"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ge8e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ududj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_nnvam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ududj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_s2mf6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4go5m")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_63ci6"]
 random_pitch = 1.1
@@ -109,7 +142,7 @@ navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
 polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "explode_player") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "explosion_area", "explosion_shape", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "explode_player", "explode_animation") groups=["player"]]
 y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
@@ -125,7 +158,13 @@ damage_player = NodePath("DamagePlayer")
 move_player = NodePath("MovePlayer")
 attack_player = NodePath("AttackPlayer")
 explode_player = NodePath("ExplodePlayer")
+explode_animation = NodePath("ExplodeAnimation")
 metadata/_edit_group_ = true
+
+[node name="ExplodeAnimation" type="AnimatedSprite2D" parent="Player"]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_0ge8e")
+animation = &"explode"
 
 [node name="DamagePlayer" type="AudioStreamPlayer2D" parent="Player"]
 stream = SubResource("AudioStreamRandomizer_63ci6")

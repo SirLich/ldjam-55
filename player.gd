@@ -32,6 +32,8 @@ var attack_width = 0.0
 @export var attack_player : AudioStreamPlayer2D
 @export var explode_player : AudioStreamPlayer2D
 
+@export var explode_animation : AnimatedSprite2D
+
 var move_distance
 
 var action : PlayerAction
@@ -122,6 +124,7 @@ func perform_attack():
 	
 func perform_explosion():
 	explode_player.play()
+	explode_animation.play("explode")
 	var tween = get_tree().create_tween()
 	
 	for body in explosion_area.get_overlapping_bodies():
@@ -180,12 +183,15 @@ func _draw():
 		draw_circle(last_point - global_position, 10, Color.RED)
 		draw_polyline(new_path, Color.BLACK, 3)
 	
+	var color = Color.BLACK
+	color.a = 0.2
+	
 	if is_action(PlayerAction.EXPLODE):
-		draw_circle(Vector2(0,0), explode_radius, Color.BLANCHED_ALMOND)
+		draw_circle(Vector2(0,0), explode_radius, color)
 		
 	if is_action(PlayerAction.ATTACK):
 		var start_angle = get_angle_to(get_global_mouse_position())
-		draw_arc(Vector2(0,0), attack_radius, start_angle, start_angle + attack_angle, 10, Color.AQUA, attack_radius)
+		draw_arc(Vector2(0,0), attack_radius, start_angle, start_angle + attack_angle, 10, color, attack_radius)
 		
 	if is_action(PlayerAction.ATTACKING):
 		var start_angle = attack_area.rotation - (PI / 2)
