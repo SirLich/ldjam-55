@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsdoc3nj1kafa"]
+[gd_scene load_steps=7 format=3 uid="uid://bsdoc3nj1kafa"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_pfeps"]
 [ext_resource type="Texture2D" uid="uid://cr4ighcsbwotb" path="res://assets/start_screen.png" id="1_psgcw"]
 [ext_resource type="FontFile" uid="uid://d6vqjwuun3os" path="res://assets/BLOODY.TTF" id="2_01jcj"]
+[ext_resource type="AudioStream" uid="uid://dt3t5t506fm7" path="res://assets/sfx/music.wav" id="4_cnmkw"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y7kw8"]
 font = ExtResource("2_01jcj")
@@ -82,5 +83,11 @@ label_settings = SubResource("LabelSettings_m47gp")
 wait_time = 3.0
 one_shot = true
 autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cnmkw")
+volume_db = -10.0
+pitch_scale = 0.54
+autoplay = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

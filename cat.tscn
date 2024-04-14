@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d4kb5vgk2htc5"]
+[gd_scene load_steps=8 format=3 uid="uid://d4kb5vgk2htc5"]
 
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_v3fkf"]
 [ext_resource type="Texture2D" uid="uid://bhfjat70o5jd5" path="res://assets/cat_1.svg" id="2_ickrf"]
@@ -31,6 +31,10 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7e75w"]
+radius = 22.53
+height = 71.41
+
 [node name="Worm" instance=ExtResource("1_v3fkf")]
 movement_speed = 120.0
 attack_damage = 10
@@ -40,3 +44,6 @@ max_health = 30
 sprite_frames = SubResource("SpriteFrames_yao5v")
 frame = 1
 frame_progress = 0.896164
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." index="7"]
+shape = SubResource("CapsuleShape2D_7e75w")

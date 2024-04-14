@@ -7,7 +7,7 @@ var health
 
 var move_time = 1.0
 @export var movement_speed: float = 300.0
-var dashing_speed: float = 600.0
+var dashing_speed: float = 900.0
 
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
@@ -15,7 +15,6 @@ var dashing_speed: float = 600.0
 @export var attack_damage : float = 20
 var attack_width = 0.0
 @export var agent : NavigationAgent2D
-@export var action_debug_label : Label
 @export var explosion_area : Area2D
 @export var explosion_shape : CollisionShape2D
 @export var sprite : AnimatedSprite2D
@@ -33,8 +32,8 @@ var attack_width = 0.0
 
 @export var shoot_ray : RayCast2D
 
-var shoot_damage = 5
-var shoot_distance = 400
+var shoot_damage = 10
+var shoot_distance = 600
 
 var move_distance
 
@@ -81,8 +80,6 @@ func set_action(in_action):
 		action = in_action
 	else:
 		action = PlayerAction.get(in_action)
-	
-	action_debug_label.text = PlayerAction.find_key(action)
 	
 	if action == PlayerAction.MOVING or action == PlayerAction.DASHING:
 		if action == PlayerAction.MOVING:

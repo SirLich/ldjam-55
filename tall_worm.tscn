@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdnysymo1sp8j"]
+[gd_scene load_steps=10 format=3 uid="uid://bdnysymo1sp8j"]
 
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_1ufm1"]
 [ext_resource type="Texture2D" uid="uid://be28s02h3vgrs" path="res://assets/tall_enemy_1.svg" id="2_mhx6g"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://ckp2elggycluc" path="res://assets/tall_walk_1.svg" id="4_m68q3"]
 [ext_resource type="Texture2D" uid="uid://dd86iwt8n26pm" path="res://assets/tall_walk_2.svg" id="5_dykol"]
 [ext_resource type="AudioStream" uid="uid://pbfss44khemb" path="res://assets/sfx/rah.wav" id="6_sx24d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igwvr"]
+radius = 22.53
+height = 71.41
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxaon"]
 animations = [{
@@ -44,9 +48,12 @@ movement_speed = 150.0
 attack_damage = 10
 max_health = 20
 
-[node name="AnimatedSprite2D" parent="." index="4"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." index="3"]
+shape = SubResource("CapsuleShape2D_igwvr")
+
+[node name="AnimatedSprite2D" parent="." index="5"]
 sprite_frames = SubResource("SpriteFrames_vxaon")
 frame_progress = 0.0
 
-[node name="SpawnSound" parent="." index="6"]
+[node name="SpawnSound" parent="." index="7"]
 stream = SubResource("AudioStreamRandomizer_jjj1h")

@@ -106,12 +106,11 @@ metadata/_edit_lock_ = true
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "shoot_player", "shoot_ray") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "shoot_player", "shoot_ray") groups=["player"]]
 y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
 agent = NodePath("NavigationAgent2D")
-action_debug_label = NodePath("Label")
 sprite = NodePath("AnimatedSprite2D")
 health_area = NodePath("HealthArea")
 attack_area = NodePath("AttackArea")
@@ -156,12 +155,6 @@ shape = SubResource("CircleShape2D_7hbjk")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="Player"]
 avoidance_enabled = true
-
-[node name="Label" type="Label" parent="Player"]
-offset_left = -16.0
-offset_top = -55.0
-offset_right = 24.0
-offset_bottom = -32.0
 
 [node name="AttackArea" type="Area2D" parent="Player"]
 
