@@ -27,8 +27,12 @@ func set_chip_filled(c, val):
 
 func recharge_all():
 	set_charges(need_charges)
+
+func on_game_over():
+	queue_free()
 	
 func _ready():
+	Bus.game_over.connect(on_game_over)
 	Bus.recharge_all.connect(recharge_all)
 	Bus.perform_action.connect(on_action_performed)
 	Bus.enemy_turn_ended.connect(on_enemy_turn_ended)

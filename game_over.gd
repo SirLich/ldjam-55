@@ -10,6 +10,7 @@ func _ready():
 func on_enemy_turn_ended():
 	count += 1
 	$Label.text = "SURVIVED: " + str(count)
+
 	
 func on_game_over():
 	visible = true

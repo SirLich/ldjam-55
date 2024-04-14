@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdxvx7hsy0j23"]
+
+[ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_4wu36"]
+[ext_resource type="Texture2D" uid="uid://de32mae33emao" path="res://assets/octo_1.svg" id="2_0cuqn"]
+[ext_resource type="Texture2D" uid="uid://d0rusll4kkh1b" path="res://assets/octo_2.svg" id="3_u7t38"]
+[ext_resource type="Texture2D" uid="uid://crusgsrrehc8d" path="res://assets/octo_walk_1.svg" id="4_spxie"]
+[ext_resource type="Texture2D" uid="uid://coair3v4c3n7x" path="res://assets/octo_walk_2.svg" id="5_lkce6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mml1b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0cuqn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u7t38")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_spxie")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_lkce6")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Worm" instance=ExtResource("1_4wu36")]
+movement_speed = 500.0
+attack_damage = 15
+
+[node name="AnimatedSprite2D" parent="." index="4"]
+position = Vector2(1, -12)
+sprite_frames = SubResource("SpriteFrames_mml1b")
+animation = &"idle"
+frame_progress = 0.0
