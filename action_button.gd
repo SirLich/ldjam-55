@@ -60,7 +60,7 @@ func set_charges(num):
 	
 func on_action_performed(in_action):
 	if Player.PlayerAction.get(action) == in_action:
-		decriment_charges()
+		set_charges(0)
 	
 func _process(delta):
 	button.text = title
