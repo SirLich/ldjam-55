@@ -6,7 +6,7 @@ extends Node2D
 var turn = 0
 
 func get_num_spawns(n):
-	return (n / 8) + 1
+	return (n / 10) + 1
 	
 func should_spawn_item():
 	return randf() < 0.2

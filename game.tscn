@@ -18,7 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://cg7gnbi003phg" path="res://assets/sfx/explosion.wav" id="9_3tmdt"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
-[ext_resource type="AudioStream" uid="uid://dt3t5t506fm7" path="res://assets/sfx/music.wav" id="19_lfkec"]
+[ext_resource type="AudioStream" uid="uid://dfooyvo15y847" path="res://assets/sfx/music_2.wav" id="20_hmq3j"]
 [ext_resource type="PackedScene" uid="uid://u4itpbb17f0l" path="res://item_spawn.tscn" id="23_v7akv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
@@ -263,8 +263,8 @@ spawn_scene = ExtResource("9_sbmir")
 item_scene = ExtResource("23_v7akv")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("19_lfkec")
-volume_db = -4.88
+stream = ExtResource("20_hmq3j")
+volume_db = -9.528
 pitch_scale = 0.74
 autoplay = true
 

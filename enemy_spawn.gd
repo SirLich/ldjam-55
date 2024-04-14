@@ -6,7 +6,7 @@ var turn = 0
 
 func _ready():
 	Bus.enemy_turn_ended.connect(on_enemy_turn_ended)
-
+	
 func on_enemy_turn_ended():
 	turn += 0
 	var new_enemy = enemy_scenes.pick_random().instantiate()
