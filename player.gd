@@ -9,9 +9,6 @@ var move_time = 1.0
 @export var movement_speed: float = 300.0
 var dashing_speed: float = 600.0
 
-@export var explode_radius : float = 100
-@export var explode_damage : float = 10
-
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
 @export var attack_speed = 0.3
@@ -30,9 +27,8 @@ var attack_width = 0.0
 @export var damage_player : AudioStreamPlayer2D
 @export var move_player : AudioStreamPlayer2D
 @export var attack_player : AudioStreamPlayer2D
-@export var explode_player : AudioStreamPlayer2D
 
-@export var explode_animation : AnimatedSprite2D
+@export var explode_scene : PackedScene
 
 var move_distance
 
@@ -47,12 +43,13 @@ enum PlayerAction {
 	ATTACK,
 	ATTACKING,
 	DASH,
-	DASHING
+	DASHING,
+	BOMB,
+	BOMBING
 }
 
 func _ready():
 	health = max_health
-	explosion_shape.shape.radius = explode_radius
 	Bus.enemy_turn_started.connect(on_enemy_turn_started)
 	
 	agent.navigation_finished.connect(on_navigation_finished)
@@ -93,6 +90,10 @@ func set_action(in_action):
 	else:
 		sprite.play("idle")
 		move_player.stop()
+	
+	if action == PlayerAction.BOMBING:
+		Bus.perform_action.emit(PlayerAction.BOMB)
+		perform_bomb()
 		
 	if action == PlayerAction.EXPLODING:
 		Bus.perform_action.emit(PlayerAction.EXPLODE)
@@ -119,19 +120,21 @@ func perform_attack():
 	
 	await tween.finished
 	
-	attack_shape.shape.size.y = 0
+	attack_shape.shape.size.y = 1
 	if is_action(PlayerAction.ATTACKING):
 		set_action(PlayerAction.NONE)
-	
-func perform_explosion():
-	explode_player.play()
-	explode_animation.play("explode")
-	var tween = get_tree().create_tween()
-	
-	for body in explosion_area.get_overlapping_bodies():
-		if body.is_in_group("enemy"):
-			body.damage(explode_damage)
+
+func perform_bomb():
+	# TODO spawn
 		
+	await get_tree().create_timer(2).timeout
+	if is_action(PlayerAction.EXPLODING):
+		set_action(PlayerAction.NONE)
+		
+func perform_explosion():
+	var new_bomb = explode_scene.instantiate()
+	add_child(new_bomb)
+	
 	await get_tree().create_timer(2).timeout
 	if is_action(PlayerAction.EXPLODING):
 		set_action(PlayerAction.NONE)
@@ -189,7 +192,7 @@ func _draw():
 	color.a = 0.2
 	
 	if is_action(PlayerAction.EXPLODE):
-		draw_circle(Vector2(0,0), explode_radius, color)
+		draw_circle(Vector2(0,0), 100, color)
 		
 	if is_action(PlayerAction.ATTACK):
 		var start_angle = get_angle_to(get_global_mouse_position())

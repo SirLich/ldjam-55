@@ -1,10 +1,9 @@
-[gd_scene load_steps=28 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=27 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
-[ext_resource type="PackedScene" uid="uid://dwj5rrroc4jyu" path="res://bomb.tscn" id="4_0ty6n"]
 [ext_resource type="AudioStream" uid="uid://bd2xbuk15vb05" path="res://assets/sfx/player_hurt.wav" id="4_d7f8b"]
 [ext_resource type="Texture2D" uid="uid://ejbu8ds3jrb8" path="res://assets/level.png" id="4_gsckj"]
 [ext_resource type="Texture2D" uid="uid://cwo8g03vxx5t4" path="res://assets/char_1.svg" id="4_vdg23"]
@@ -114,7 +113,6 @@ attack_shape = NodePath("AttackArea/CollisionShape2D")
 damage_player = NodePath("DamagePlayer")
 move_player = NodePath("MovePlayer")
 attack_player = NodePath("AttackPlayer")
-explode_scene = ExtResource("4_0ty6n")
 metadata/_edit_group_ = true
 
 [node name="DamagePlayer" type="AudioStreamPlayer2D" parent="Player"]
