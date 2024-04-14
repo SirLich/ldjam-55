@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=34 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
@@ -18,9 +18,8 @@
 [ext_resource type="AudioStream" uid="uid://cg7gnbi003phg" path="res://assets/sfx/explosion.wav" id="9_3tmdt"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
-[ext_resource type="Script" path="res://game_over.gd" id="15_csfgp"]
-[ext_resource type="Texture2D" uid="uid://b0nv8tyeo1qr5" path="res://assets/death.png" id="16_vaxs1"]
 [ext_resource type="FontFile" uid="uid://d6vqjwuun3os" path="res://assets/BLOODY.TTF" id="17_p2vmg"]
+[ext_resource type="Script" path="res://turn_label.gd" id="19_jija2"]
 [ext_resource type="AudioStream" uid="uid://dfooyvo15y847" path="res://assets/sfx/music_2.wav" id="20_hmq3j"]
 [ext_resource type="Texture2D" uid="uid://kvvpqltutro4" path="res://assets/arrow.png" id="21_oxrmi"]
 [ext_resource type="Script" path="res://ArrowSprite.gd" id="22_kjkx4"]
@@ -85,9 +84,10 @@ radius = 23.0217
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pyv5q"]
 size = Vector2(27, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_852vp"]
+[sub_resource type="LabelSettings" id="LabelSettings_jo7lt"]
 font = ExtResource("17_p2vmg")
-font_size = 65
+font_size = 32
+font_color = Color(0.772549, 0.454902, 0.380392, 1)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("turn_timer", "end_turn_button")]
 script = ExtResource("1_3ui0v")
@@ -171,39 +171,6 @@ metadata/_edit_lock_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="GameOver" type="Control" parent="CanvasLayer"]
-process_mode = 3
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("15_csfgp")
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GameOver"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("16_vaxs1")
-
-[node name="Label" type="Label" parent="CanvasLayer/GameOver"]
-modulate = Color(0.576471, 0.117647, 0.133333, 1)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 447.0
-offset_top = 707.0
-offset_right = 1305.0
-offset_bottom = 809.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "SURVIVED: "
-label_settings = SubResource("LabelSettings_852vp")
-horizontal_alignment = 1
-
 [node name="Control" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
@@ -212,18 +179,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProgressRow" type="HBoxContainer" parent="CanvasLayer/Control"]
+[node name="ProgressRow" type="VBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 687.0
-offset_top = 83.0
-offset_right = 1187.0
-offset_bottom = 123.0
+offset_left = 712.0
+offset_top = 75.0
+offset_right = 1212.0
+offset_bottom = 142.0
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control/ProgressRow"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 step = 1.0
 script = ExtResource("10_j6it2")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/ProgressRow"]
+layout_mode = 2
+text = "Waves remaining: 50"
+label_settings = SubResource("LabelSettings_jo7lt")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("19_jija2")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 0

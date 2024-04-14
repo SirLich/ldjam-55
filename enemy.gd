@@ -15,7 +15,9 @@ var paused = true
 var health
 
 func get_player() -> Node2D:
-	return get_tree().get_first_node_in_group("player")
+	if get_tree():
+		return get_tree().get_first_node_in_group("player")
+	return null
 
 func damage(value):
 	health -= value
@@ -50,6 +52,8 @@ func on_enemy_turn_started(time):
 	sprite.play("walk")
 	if not agent:
 		queue_free()
+		return
+	if not get_player():
 		return
 	agent.target_position = get_player().global_position
 	audio_player.play()

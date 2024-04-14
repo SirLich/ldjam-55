@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0svnjlwkb1m6"]
+
+[ext_resource type="PackedScene" uid="uid://co27rcxvd5mgh" path="res://win.tscn" id="1_8y20d"]
+[ext_resource type="Texture2D" uid="uid://ny8qpwew23fd" path="res://assets/dead_screen.png" id="2_c5j5v"]
+
+[node name="Win" instance=ExtResource("1_8y20d")]
+
+[node name="TextureRect" parent="." index="0"]
+texture = ExtResource("2_c5j5v")

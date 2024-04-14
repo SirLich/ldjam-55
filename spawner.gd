@@ -6,6 +6,8 @@ extends Node2D
 var turn = 0
 
 func get_num_spawns(n):
+	if turn >= 50:
+		return 0
 	return (n / 8) + 1
 	
 func should_spawn_item():

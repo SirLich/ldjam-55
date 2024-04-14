@@ -289,10 +289,13 @@ func damage(value):
 	health -= value
 	
 	if health <= 0:
-		kill()
+		var tree = get_tree()
+		if tree:
+			tree.change_scene_to_file("res://death.tscn")
 		
 func kill():
-	Bus.game_over.emit()
+	pass
+	#Bus.game_over.emit()
 	
 func try_damage_player(body):
 	if body.is_in_group("enemy"):
