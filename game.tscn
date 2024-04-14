@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=36 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
 [ext_resource type="AudioStream" uid="uid://dt3t5t506fm7" path="res://assets/sfx/music.wav" id="19_lfkec"]
+[ext_resource type="PackedScene" uid="uid://u4itpbb17f0l" path="res://item_spawn.tscn" id="23_v7akv"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdu3m"]
 vertices = PackedVector2Array(1855, 64, 1841, 1018, 1197, 497, 1165, 448, 1192, 586, 1104, 663, 39, 1018, 960, 673, 801, 657, 35, 56, 729, 574, 740, 475, 813, 436, 862, 408, 964, 398, 1081, 416)
@@ -259,19 +260,22 @@ offset_bottom = 1007.0
 
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
+tooltip_text = "Move a short distance. You will collide with enemy hitboxes, and may take damage."
 action = "MOVE"
 title = "Move"
 need_charges = 2
 charges = 2
 
-[node name="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+[node name="DashButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
+tooltip_text = "Dash a long distance. You will collide with enemy hitboxes, and may take damage."
 action = "DASH"
 title = "Dash"
 need_charges = 3
 
 [node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
+tooltip_text = "Deals a high ammount of damage in an arc."
 action = "ATTACK"
 title = "Attack"
 need_charges = 2
@@ -279,6 +283,7 @@ charges = 2
 
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
+tooltip_text = "Deals a medium ammount of damage in a full circle."
 action = "EXPLODE"
 title = "Explode"
 need_charges = 3
@@ -289,6 +294,7 @@ offset_left = 1716.0
 offset_top = 957.0
 offset_right = 1806.0
 offset_bottom = 988.0
+tooltip_text = "Ends your turn. This will allow the enemies to move."
 text = "END TURN"
 
 [node name="EnemySpawn" parent="." instance=ExtResource("9_sbmir")]
@@ -296,6 +302,7 @@ text = "END TURN"
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("2_8uugw")
 spawn_scene = ExtResource("9_sbmir")
+item_scene = ExtResource("23_v7akv")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_lfkec")

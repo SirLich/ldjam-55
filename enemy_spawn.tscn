@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj14r3rl2750j"]
+[gd_scene load_steps=5 format=3 uid="uid://dj14r3rl2750j"]
 
 [ext_resource type="Script" path="res://enemy_spawn.gd" id="1_pcad3"]
+[ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="2_fvgbp"]
 [ext_resource type="PackedScene" uid="uid://bdnysymo1sp8j" path="res://tall_worm.tscn" id="2_x42li"]
 [ext_resource type="Texture2D" uid="uid://buvke2qedm0cu" path="res://assets/pentogram.png" id="3_ie0g1"]
 
 [node name="EnemySpawn" type="Node2D"]
-position = Vector2(331, 602)
 script = ExtResource("1_pcad3")
-enemy_transform = ExtResource("2_x42li")
+enemy_scenes = Array[PackedScene]([ExtResource("2_fvgbp"), ExtResource("2_x42li")])
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

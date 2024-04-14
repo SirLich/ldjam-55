@@ -23,8 +23,12 @@ func set_chip_filled(c, val):
 		c.texture = filled_texture
 	else:
 		c.texture = unfilled_texture
+
+func recharge_all():
+	set_charges(need_charges)
 	
 func _ready():
+	Bus.recharge_all.connect(recharge_all)
 	Bus.perform_action.connect(on_action_performed)
 	Bus.enemy_turn_ended.connect(on_enemy_turn_ended)
 	

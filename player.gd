@@ -15,7 +15,7 @@ var dashing_speed: float = 600.0
 @export var attack_radius : float = 75
 @export var attack_angle = PI/2
 @export var attack_speed = 0.3
-@export var attack_damage : float = 10
+@export var attack_damage : float = 20
 var attack_width = 0.0
 @export var agent : NavigationAgent2D
 @export var action_debug_label : Label
@@ -224,6 +224,10 @@ func _on_attack_area_body_entered(body : Node2D):
 	if body.is_in_group("enemy") and is_action(PlayerAction.ATTACKING):
 		body.damage(attack_damage)
 
+func heal(value):
+	# TODO: Heal sound
+	health += value % max_health
+	
 func damage(value):
 	damage_player.play()
 	health -= value

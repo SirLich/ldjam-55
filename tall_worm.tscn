@@ -32,7 +32,9 @@ animations = [{
 }]
 
 [node name="Worm" instance=ExtResource("1_1ufm1")]
-movement_speed = 100.0
+movement_speed = 150.0
+attack_damage = 10
+max_health = 20
 
 [node name="AnimatedSprite2D" parent="." index="4"]
 sprite_frames = SubResource("SpriteFrames_vxaon")
