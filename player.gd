@@ -120,7 +120,8 @@ func perform_attack():
 	await tween.finished
 	
 	attack_shape.shape.size.y = 0
-	set_action(PlayerAction.NONE)
+	if is_action(PlayerAction.ATTACKING):
+		set_action(PlayerAction.NONE)
 	
 func perform_explosion():
 	explode_player.play()
@@ -132,7 +133,8 @@ func perform_explosion():
 			body.damage(explode_damage)
 		
 	await get_tree().create_timer(2).timeout
-	set_action(PlayerAction.NONE)
+	if is_action(PlayerAction.EXPLODING):
+		set_action(PlayerAction.NONE)
 	
 func _input(event):
 	if event.is_action_released("right_click"):

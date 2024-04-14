@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://u4itpbb17f0l"]
+[gd_scene load_steps=5 format=3 uid="uid://u4itpbb17f0l"]
 
 [ext_resource type="Script" path="res://enemy_spawn.gd" id="1_uo81j"]
 [ext_resource type="Texture2D" uid="uid://dfgdednnlwt0f" path="res://assets/reverse_pento.png" id="2_nx3bx"]
 [ext_resource type="PackedScene" uid="uid://cdbu4rqvyq6hp" path="res://heart_item.tscn" id="2_pbdp6"]
+[ext_resource type="PackedScene" uid="uid://ce70rfq5u18ko" path="res://bottle_item.tscn" id="3_804h0"]
 
 [node name="EnemySpawn" type="Node2D"]
 script = ExtResource("1_uo81j")
-enemy_scenes = Array[PackedScene]([ExtResource("2_pbdp6")])
+enemy_scenes = Array[PackedScene]([ExtResource("2_pbdp6"), ExtResource("3_804h0")])
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,7 +1,6 @@
-[gd_scene load_steps=36 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=35 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
-[ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_5dp4w"]
 [ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
 [ext_resource type="Script" path="res://player.gd" id="2_ggsq6"]
 [ext_resource type="Script" path="res://dots.gd" id="2_nvo7r"]
@@ -215,13 +214,6 @@ shape = SubResource("CircleShape2D_vi6u8")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea"]
 position = Vector2(-1, -65)
 shape = SubResource("RectangleShape2D_pyv5q")
-
-[node name="Worm" parent="." instance=ExtResource("1_5dp4w")]
-position = Vector2(399, 183)
-
-[node name="Worm2" parent="." node_paths=PackedStringArray("agent") instance=ExtResource("1_5dp4w")]
-position = Vector2(211, 231)
-agent = NodePath("../Worm/NavigationAgent2D")
 
 [node name="DrawDots" type="Node2D" parent="."]
 position = Vector2(961, 1214)

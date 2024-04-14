@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cavateiqqe8y5"]
+
+[ext_resource type="AudioStream" uid="uid://bbruucqeqda3x" path="res://assets/sfx/heal.wav" id="1_bbjbp"]
+
+[node name="AudioBus" type="Node2D"]
+
+[node name="HealSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_bbjbp")

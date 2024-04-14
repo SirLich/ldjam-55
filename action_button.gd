@@ -9,6 +9,7 @@ extends VBoxContainer
 
 @export var chip_container : HBoxContainer
 
+@onready var sound = $Sound
 
 
 
@@ -55,6 +56,7 @@ func set_charges(num):
 		button.disabled = true
 	if num == need_charges:
 		button.disabled = false
+		sound.play()
 		
 	charges = num
 	

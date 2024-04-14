@@ -59,7 +59,7 @@ func on_enemy_turn_ended():
 func actor_setup():
 	# Wait for the first physics frame so the NavigationServer can sync.
 	await get_tree().physics_frame
-
+	
 	agent.target_position = get_player().global_position
 	
 func _physics_process(delta):

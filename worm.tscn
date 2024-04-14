@@ -55,6 +55,7 @@ metadata/_edit_group_ = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
+radius = 50.0
 
 [node name="Draw" type="Node2D" parent="."]
 visible = false
