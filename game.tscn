@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://yuy0svp0u2xk"]
+[gd_scene load_steps=29 format=3 uid="uid://yuy0svp0u2xk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3ui0v"]
 [ext_resource type="Script" path="res://spawner.gd" id="2_8uugw"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://cu4im8s3jmupl" path="res://assets/sfx/attack_single.wav" id="6_mfe68"]
 [ext_resource type="Texture2D" uid="uid://c2vbpnmhybwwl" path="res://assets/move_1.svg" id="6_y7q1o"]
 [ext_resource type="Texture2D" uid="uid://xru6la7irpn8" path="res://assets/move_2.svg" id="7_lykm8"]
+[ext_resource type="AudioStream" uid="uid://cg7gnbi003phg" path="res://assets/sfx/explosion.wav" id="9_3tmdt"]
 [ext_resource type="PackedScene" uid="uid://dj14r3rl2750j" path="res://enemy_spawn.tscn" id="9_sbmir"]
 [ext_resource type="Script" path="res://health_bar.gd" id="10_j6it2"]
 [ext_resource type="AudioStream" uid="uid://dt3t5t506fm7" path="res://assets/sfx/music.wav" id="19_lfkec"]
@@ -101,7 +102,7 @@ navigation_polygon = SubResource("NavigationPolygon_sdu3m")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NavigationRegion2D/StaticBody2D"]
 polygon = PackedVector2Array(818, 445, 749, 481, 739, 571, 806, 647, 960, 663, 1100, 653, 1182, 581, 1187, 500, 1158, 456, 1078, 426, 964, 408, 865, 418)
 
-[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player") groups=["player"]]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("agent", "action_debug_label", "sprite", "health_area", "attack_area", "attack_shape", "damage_player", "move_player", "attack_player", "shoot_player", "shoot_ray") groups=["player"]]
 y_sort_enabled = true
 position = Vector2(1420, 334)
 script = ExtResource("2_ggsq6")
@@ -114,7 +115,9 @@ attack_shape = NodePath("AttackArea/CollisionShape2D")
 damage_player = NodePath("DamagePlayer")
 move_player = NodePath("MovePlayer")
 attack_player = NodePath("AttackPlayer")
+shoot_player = NodePath("ShootPlayer")
 explode_scene = ExtResource("4_0ty6n")
+shoot_ray = NodePath("ShootRay")
 metadata/_edit_group_ = true
 
 [node name="DamagePlayer" type="AudioStreamPlayer2D" parent="Player"]
@@ -127,6 +130,10 @@ stream = SubResource("AudioStreamRandomizer_um04d")
 
 [node name="AttackPlayer" type="AudioStreamPlayer2D" parent="Player"]
 stream = SubResource("AudioStreamRandomizer_2ckjc")
+
+[node name="ShootPlayer" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("9_3tmdt")
+pitch_scale = 3.0
 
 [node name="HealthArea" type="Area2D" parent="Player"]
 
@@ -157,6 +164,8 @@ offset_bottom = -32.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackArea"]
 position = Vector2(-1, -65)
 shape = SubResource("RectangleShape2D_pyv5q")
+
+[node name="ShootRay" type="RayCast2D" parent="Player"]
 
 [node name="DrawDots" type="Node2D" parent="."]
 position = Vector2(961, 1214)
@@ -193,11 +202,26 @@ offset_top = 967.0
 offset_right = 461.0
 offset_bottom = 1007.0
 
+[node name="Shoot" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+layout_mode = 2
+action = "SHOOT"
+title = "Shoot"
+need_charges = 1
+charges = 1
+
 [node name="MoveButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2
 tooltip_text = "Move a short distance. You will collide with enemy hitboxes, and may take damage."
 action = "MOVE"
 title = "Move"
+need_charges = 2
+charges = 2
+
+[node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
+layout_mode = 2
+tooltip_text = "Deals a high ammount of damage in an arc."
+action = "ATTACK"
+title = "Attack"
 need_charges = 2
 charges = 2
 
@@ -207,14 +231,6 @@ tooltip_text = "Dash a long distance. You will collide with enemy hitboxes, and 
 action = "DASH"
 title = "Dash"
 need_charges = 3
-
-[node name="Attack" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
-layout_mode = 2
-tooltip_text = "Deals a high ammount of damage in an arc."
-action = "ATTACK"
-title = "Attack"
-need_charges = 2
-charges = 2
 
 [node name="ExplodeButton" parent="CanvasLayer/Control/HBoxContainer" instance=ExtResource("6_aol81")]
 layout_mode = 2

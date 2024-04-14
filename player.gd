@@ -27,8 +27,14 @@ var attack_width = 0.0
 @export var damage_player : AudioStreamPlayer2D
 @export var move_player : AudioStreamPlayer2D
 @export var attack_player : AudioStreamPlayer2D
+@export var shoot_player : AudioStreamPlayer2D
 
 @export var explode_scene : PackedScene
+
+@export var shoot_ray : RayCast2D
+
+var shoot_damage = 5
+var shoot_distance = 400
 
 var move_distance
 
@@ -45,7 +51,9 @@ enum PlayerAction {
 	DASH,
 	DASHING,
 	BOMB,
-	BOMBING
+	BOMBING,
+	SHOOT,
+	SHOOTING
 }
 
 func _ready():
@@ -102,7 +110,22 @@ func set_action(in_action):
 	if action == PlayerAction.ATTACKING:
 		Bus.perform_action.emit(PlayerAction.ATTACK)
 		perform_attack()
+		
+	if action == PlayerAction.SHOOTING:
+		Bus.perform_action.emit(PlayerAction.SHOOT)
+		perform_shoot()
 
+func get_target_shoot_position():
+	return Vector2.ZERO.direction_to(get_local_mouse_position()) * shoot_distance
+	
+func perform_shoot():
+	var col = shoot_ray.get_collider()
+	shoot_player.play()
+	if col and col.is_in_group("enemy"):
+		col.damage(shoot_damage)
+	
+	set_action(PlayerAction.NONE)
+	
 func perform_attack():
 	attack_player.play()
 	attack_shape.shape.size.y = attack_radius + 45
@@ -157,6 +180,8 @@ func _input(event):
 			set_action(PlayerAction.EXPLODING)
 		if is_action(PlayerAction.BOMB):
 			set_action(PlayerAction.BOMBING)
+		if is_action(PlayerAction.SHOOT):
+			set_action(PlayerAction.SHOOTING)
 
 func get_speed():
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.MOVING):
@@ -199,6 +224,9 @@ func _draw():
 	
 	if is_action(PlayerAction.BOMB):
 		draw_circle(get_local_mouse_position(), 100, color)
+	
+	if is_action(PlayerAction.SHOOT):
+		draw_line(Vector2.ZERO, get_target_shoot_position(), Color.RED, 2)
 		
 	if is_action(PlayerAction.ATTACK):
 		var start_angle = get_angle_to(get_global_mouse_position())
@@ -210,6 +238,8 @@ func _draw():
 		
 func _process(delta):
 	queue_redraw()
+	
+	shoot_ray.target_position = get_target_shoot_position()
 	
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.DASH):
 		
