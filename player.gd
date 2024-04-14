@@ -125,8 +125,9 @@ func perform_attack():
 		set_action(PlayerAction.NONE)
 
 func perform_bomb():
-	# TODO spawn
-		
+	var new_bomb = explode_scene.instantiate()
+	add_child(new_bomb)
+	new_bomb.global_position = get_global_mouse_position()
 	await get_tree().create_timer(2).timeout
 	if is_action(PlayerAction.EXPLODING):
 		set_action(PlayerAction.NONE)
@@ -154,6 +155,8 @@ func _input(event):
 			set_action(PlayerAction.ATTACKING)
 		if is_action(PlayerAction.EXPLODE):
 			set_action(PlayerAction.EXPLODING)
+		if is_action(PlayerAction.BOMB):
+			set_action(PlayerAction.BOMBING)
 
 func get_speed():
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.MOVING):
@@ -193,6 +196,9 @@ func _draw():
 	
 	if is_action(PlayerAction.EXPLODE):
 		draw_circle(Vector2(0,0), 100, color)
+	
+	if is_action(PlayerAction.BOMB):
+		draw_circle(get_local_mouse_position(), 100, color)
 		
 	if is_action(PlayerAction.ATTACK):
 		var start_angle = get_angle_to(get_global_mouse_position())
