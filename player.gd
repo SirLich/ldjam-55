@@ -61,7 +61,8 @@ func on_enemy_turn_started(time):
 		try_damage_player(body)
 	
 func on_navigation_finished():
-	set_action(PlayerAction.NONE)
+	if is_action(PlayerAction.MOVING) or is_action(PlayerAction.DASHING):
+		set_action(PlayerAction.NONE)
 	
 func is_action(in_action):
 	return in_action == action
@@ -79,12 +80,14 @@ func set_action(in_action):
 			Bus.perform_action.emit(PlayerAction.MOVE)
 		else:
 			Bus.perform_action.emit(PlayerAction.DASH)
-		agent.target_position = get_global_mouse_position()
+			
+		#agent.target_position = get_global_mouse_position()
 		sprite.play("walk")
 		move_player.play()
-		await get_tree().create_timer(move_time).timeout
-		if PlayerAction.MOVING or action == PlayerAction.DASHING:
-			set_action(PlayerAction.NONE)
+		
+		#await get_tree().create_timer(move_time).timeout
+		#if PlayerAction.MOVING or action == PlayerAction.DASHING:
+			#set_action(PlayerAction.NONE)
 	else:
 		sprite.play("idle")
 		move_player.stop()
@@ -149,7 +152,9 @@ func get_speed():
 		return movement_speed
 	if is_action(PlayerAction.DASH) or is_action(PlayerAction.DASHING):
 		return dashing_speed
-		
+
+var custom_pos = false
+
 func _draw():
 	if is_action(PlayerAction.MOVE) or is_action(PlayerAction.DASH):
 		var path = agent.get_current_navigation_path()
@@ -164,7 +169,10 @@ func _draw():
 			if size > get_speed():
 				last_point = v.move_toward(last_point, abs(overshoot))
 				new_path.append(last_point - global_position)
+				custom_pos = true
+				agent.target_position = last_point
 				break
+			custom_pos = false
 		
 			last_point = v
 			new_path.append(v - global_position)
