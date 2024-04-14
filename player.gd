@@ -159,16 +159,18 @@ func _draw():
 		var colors : PackedColorArray
 		for v in path:
 			size += v.distance_to(last_point)
+			
+			var overshoot = size - get_speed()
+			if size > get_speed():
+				last_point = v.move_toward(last_point, abs(overshoot))
+				new_path.append(last_point - global_position)
+				break
+		
 			last_point = v
 			new_path.append(v - global_position)
-			
-			if size < get_speed():
-				colors.append(Color.BLACK)
-			else:
-				colors.append(Color.RED)
 		
-		var color_to_use = Color.BLACK
-		draw_polyline_colors(new_path, colors, 3)
+		draw_circle(last_point - global_position, 10, Color.RED)
+		draw_polyline(new_path, Color.BLACK, 3)
 	
 	if is_action(PlayerAction.EXPLODE):
 		draw_circle(Vector2(0,0), explode_radius, Color.BLANCHED_ALMOND)
