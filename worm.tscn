@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://730ren3udciw"]
+[gd_scene load_steps=13 format=3 uid="uid://730ren3udciw"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_yra1v"]
 [ext_resource type="Script" path="res://draw_worm.gd" id="2_8fcju"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://i6eomp4tjy0x" path="res://assets/bug/walk_1.svg" id="5_2uby7"]
 [ext_resource type="Texture2D" uid="uid://d2pdyrabc2rp7" path="res://assets/bug/walk_2.svg" id="6_46v43"]
 [ext_resource type="AudioStream" uid="uid://u3bgynh2qib3" path="res://assets/sfx/spider_move.wav" id="7_8hx5u"]
+[ext_resource type="AudioStream" uid="uid://dy70dkp2kdian" path="res://assets/sfx/hiss.wav" id="7_mnc68"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tl3n6"]
 
@@ -42,7 +43,14 @@ streams_count = 1
 stream_0/stream = ExtResource("7_8hx5u")
 stream_0/weight = 1.0
 
-[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar", "sprite", "audio_player") groups=["enemy"]]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tqlka"]
+random_pitch = 1.1
+random_volume_offset_db = 0.83
+streams_count = 1
+stream_0/stream = ExtResource("7_mnc68")
+stream_0/weight = 1.0
+
+[node name="Worm" type="CharacterBody2D" node_paths=PackedStringArray("agent", "health_bar", "sprite", "audio_player", "spawn_player") groups=["enemy"]]
 position = Vector2(2, 2)
 script = ExtResource("1_yra1v")
 movement_speed = 320.0
@@ -51,6 +59,7 @@ health_bar = NodePath("ProgressBar")
 sprite = NodePath("AnimatedSprite2D")
 attack_damage = 5
 audio_player = NodePath("AudioStreamPlayer2D")
+spawn_player = NodePath("SpawnSound")
 metadata/_edit_group_ = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -79,5 +88,10 @@ frame_progress = 0.662415
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_rourh")
+volume_db = -2.44
+pitch_scale = 1.38
+
+[node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_tqlka")
 volume_db = -2.44
 pitch_scale = 1.38

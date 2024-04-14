@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdnysymo1sp8j"]
+[gd_scene load_steps=9 format=3 uid="uid://bdnysymo1sp8j"]
 
 [ext_resource type="PackedScene" uid="uid://730ren3udciw" path="res://worm.tscn" id="1_1ufm1"]
 [ext_resource type="Texture2D" uid="uid://be28s02h3vgrs" path="res://assets/tall_enemy_1.svg" id="2_mhx6g"]
 [ext_resource type="Texture2D" uid="uid://c1fl6yooj5h2e" path="res://assets/tall_enemy_2.svg" id="3_i5iln"]
 [ext_resource type="Texture2D" uid="uid://ckp2elggycluc" path="res://assets/tall_walk_1.svg" id="4_m68q3"]
 [ext_resource type="Texture2D" uid="uid://dd86iwt8n26pm" path="res://assets/tall_walk_2.svg" id="5_dykol"]
+[ext_resource type="AudioStream" uid="uid://pbfss44khemb" path="res://assets/sfx/rah.wav" id="6_sx24d"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vxaon"]
 animations = [{
@@ -31,6 +32,13 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jjj1h"]
+random_pitch = 1.1
+random_volume_offset_db = 0.83
+streams_count = 1
+stream_0/stream = ExtResource("6_sx24d")
+stream_0/weight = 1.0
+
 [node name="Worm" instance=ExtResource("1_1ufm1")]
 movement_speed = 150.0
 attack_damage = 10
@@ -39,3 +47,6 @@ max_health = 20
 [node name="AnimatedSprite2D" parent="." index="4"]
 sprite_frames = SubResource("SpriteFrames_vxaon")
 frame_progress = 0.0
+
+[node name="SpawnSound" parent="." index="6"]
+stream = SubResource("AudioStreamRandomizer_jjj1h")

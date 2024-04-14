@@ -239,6 +239,7 @@ func damage(value):
 		
 func kill():
 	queue_free()
+	get_tree().paused = true
 	
 func try_damage_player(body):
 	if body.is_in_group("enemy"):

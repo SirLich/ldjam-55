@@ -10,6 +10,8 @@ var paused = true
 @export var attack_damage : int = 1
 @export var audio_player : AudioStreamPlayer2D
 @export var max_health = 10
+@export var spawn_player : AudioStreamPlayer2D
+
 var health
 
 func get_player() -> Node2D:
@@ -24,6 +26,8 @@ func kill():
 	queue_free()
 	
 func _ready():
+	if spawn_player:
+		spawn_player.play()
 	sprite.play("idle")
 	health = max_health
 	
